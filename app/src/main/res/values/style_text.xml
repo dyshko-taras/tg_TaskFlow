@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="f40BoldWhite">
+        <item name="fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="f30BoldWhite">
+        <item name="fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="f25BoldWhite">
+        <item name="fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="f18RegularWhite">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="f12RegularWhite">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

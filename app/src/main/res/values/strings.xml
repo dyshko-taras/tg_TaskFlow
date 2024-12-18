@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TaskFlow</string>
+    <string name="taskflow">TaskFlow.</string>
+    <string name="your_personal_assistant">your personal assistant</string>
+</resources>
