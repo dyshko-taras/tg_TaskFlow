@@ -2,4 +2,14 @@
     <string name="app_name">TaskFlow</string>
     <string name="taskflow">TaskFlow.</string>
     <string name="your_personal_assistant">your personal assistant</string>
+    <string name="welcome">Welcome!</string>
+    <string name="please_log_in">Please log in to your account</string>
+    <string name="administrator">Administrator</string>
+    <string name="employee">Employee</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="login">Login</string>
+    <string name="not_registered_yet">Not registered yet?</string>
+    <string name="register">Register</string>
 </resources>

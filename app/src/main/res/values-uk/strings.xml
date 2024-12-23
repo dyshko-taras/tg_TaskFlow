@@ -3,4 +3,14 @@
     <string name="app_name">TaskFlow</string>
     <string name="taskflow">TaskFlow.</string>
     <string name="your_personal_assistant">твій особистий помічник</string>
+    <string name="welcome">Вітаю!</string>
+    <string name="please_log_in">Будь ласка, ввійдіть в акаунт</string>
+    <string name="administrator">Адміністратор</string>
+    <string name="employee">Співробітник</string>
+    <string name="email">Пошта</string>
+    <string name="password">Пароль</string>
+    <string name="forgot_password">Забули пароль?</string>
+    <string name="login">Вхід</string>
+    <string name="not_registered_yet">Ще не зареєстровані?</string>
+    <string name="register">Реєстрація</string>
 </resources>
