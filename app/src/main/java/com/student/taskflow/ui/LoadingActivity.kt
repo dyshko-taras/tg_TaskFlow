@@ -8,7 +8,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.student.taskflow.R
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoadingActivity : AppCompatActivity() {
@@ -25,8 +24,7 @@ class LoadingActivity : AppCompatActivity() {
     }
 
     private fun navigateToAuthorization() {
-        lifecycleScope.launch() {
-//            delay(2000) // Delay for 2 seconds
+        lifecycleScope.launch {
             val intent = Intent(this@LoadingActivity, AuthorizationActivity::class.java)
             startActivity(intent)
             finish()

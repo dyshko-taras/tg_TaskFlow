@@ -10,21 +10,21 @@
     android:orientation="vertical"
     tools:context=".ui.LoadingActivity">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
         app:srcCompat="@drawable/ic_large_icon" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         style="@style/f40BoldWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/taskflow"
         android:textAlignment="center" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

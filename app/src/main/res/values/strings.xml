@@ -12,4 +12,10 @@
     <string name="login">Login</string>
     <string name="not_registered_yet">Not registered yet?</string>
     <string name="register">Register</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="create_account">Please, create an account</string>
+    <string name="password_requirements">Your password must contain:</string>
+    <string name="password_minimum_length">At least 6 characters</string>
+    <string name="password_numbers">Numbers</string>
+    <string name="save">Save</string>
 </resources>
