@@ -18,4 +18,5 @@
     <string name="password_minimum_length">At least 6 characters</string>
     <string name="password_numbers">Numbers</string>
     <string name="save">Save</string>
+    <string name="hello">Hello, </string>
 </resources>

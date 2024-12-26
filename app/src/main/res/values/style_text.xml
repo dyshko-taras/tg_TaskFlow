@@ -37,6 +37,12 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="f18BoldBlack">
+        <item name="fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="f18BoldBlue">
         <item name="fontFamily">@font/inter_bold</item>
         <item name="android:textSize">18sp</item>

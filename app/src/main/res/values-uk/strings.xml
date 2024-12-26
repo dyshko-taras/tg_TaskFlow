@@ -19,4 +19,5 @@
     <string name="password_minimum_length">Не менше 6 символів</string>
     <string name="password_numbers">Цифри</string>
     <string name="save">Зберегти</string>
+    <string name="hello">"Привіт, "</string>
 </resources>

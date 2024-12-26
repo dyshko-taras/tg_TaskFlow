@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
+    app:cardUseCompatPadding="true"
+    app:strokeColor="@color/blue"
+    app:strokeWidth="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cbTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_checkbox"
+            android:checked="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingHorizontal="10dp"
+            android:textAppearance="@style/f18BoldBlue"
+            android:textColor="@color/black"
+            app:buttonTint="@color/blue"
+            app:layout_constraintEnd_toStartOf="@+id/btnMore"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="My Task" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:textAppearance="@style/f12RegularWhite"
+            android:textColor="@color/dark_grey"
+            app:layout_constraintEnd_toStartOf="@+id/btnMore"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cbTitle"
+            tools:text="Потрібно створити систему планування до 20 грудня. Потрібно створити систему планування до 20 грудня. Потрібно створити систему планування до 20 грудня. " />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/btnMore"
+            app:layout_constraintStart_toStartOf="@+id/txDescription"
+            app:layout_constraintTop_toBottomOf="@+id/txDescription">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txDateline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_schedule"
+                android:drawableStart="@drawable/ic_schedule"
+                android:drawablePadding="10dp"
+                android:textAppearance="@style/f12RegularWhite"
+                android:textColor="@color/dark_grey"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txDescription"
+                tools:text="виконати до: 20 грудня" />
+
+            <View
+                android:id="@+id/viewPriority"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/shape_schedule"
+                android:backgroundTint="@color/orange"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txDescription"
+                tools:text="виконати до: 20 грудня" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnMore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_vertical_dots"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="виконати до: 20 грудня" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
