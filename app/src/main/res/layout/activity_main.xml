@@ -7,9 +7,11 @@
     android:background="@color/white"
     android:gravity="top"
     android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
     tools:context=".ui.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +36,7 @@
             android:contentDescription="@null"
             android:padding="5dp"
             android:src="@drawable/ic_filter" />
-    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTasks"
@@ -50,18 +52,15 @@
         tools:itemCount="6"
         tools:listitem="@layout/item_task" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddTask"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnAddTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:contentDescription="@null"
-        app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_plus" />
+        app:srcCompat="@drawable/ic_button_plus" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/bottomNavigation"
@@ -81,7 +80,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@drawable/ic_home" />
+            android:src="@drawable/ic_home"
+            android:tint="@color/blue" />
 
         <Space
             android:layout_width="wrap_content"

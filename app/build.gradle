@@ -38,6 +38,7 @@ android {
 dependencies {
     //coroutines
     implementation libs.kotlinx.coroutines.android
+    implementation libs.powerspinner
 
 
     //standard dependencies

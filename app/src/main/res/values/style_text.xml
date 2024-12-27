@@ -73,9 +73,27 @@
         <item name="android:textColor">@color/grey</item>
     </style>
 
+    <style name="f12BoldBlack">
+        <item name="fontFamily">@font/inter_bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="f12RegularWhite">
         <item name="fontFamily">@font/inter</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="f12RegularBlack">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="f12RegularWhiteBlack123">
+        <item name="fontFamily">@font/inter</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/selector_color_date</item>
     </style>
 </resources>

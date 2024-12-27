@@ -7,8 +7,7 @@
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="10dp"
     app:cardUseCompatPadding="true"
-    app:strokeColor="@color/blue"
-    app:strokeWidth="2dp">
+    app:strokeColor="@android:color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

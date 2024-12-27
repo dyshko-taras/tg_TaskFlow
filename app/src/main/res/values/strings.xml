@@ -19,4 +19,19 @@
     <string name="password_numbers">Numbers</string>
     <string name="save">Save</string>
     <string name="hello">Hello, </string>
+    <string name="create_new_task">Create a new task</string>
+    <string name="status">Status</string>
+    <string name="select_priority">Select task priority</string>
+    <string name="select_employee">Select employee</string>
+    <string name="title">Title</string>
+    <string name="enter_task_title">Enter task title</string>
+    <string name="description">Description</string>
+    <string name="enter_task_description">Enter task description</string>
+    <string name="back">Back</string>
+    <array name="statuses">
+        <item>Not started</item>
+        <item>In progress</item>
+        <item>Completed</item>
+        <item>Under review</item>
+    </array>
 </resources>

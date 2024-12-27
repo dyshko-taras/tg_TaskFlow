@@ -20,4 +20,20 @@
     <string name="password_numbers">Цифри</string>
     <string name="save">Зберегти</string>
     <string name="hello">"Привіт, "</string>
+    <string name="create_new_task">Створити нове завдання</string>
+    <string name="status">Статус</string>
+    <string name="select_priority">Виберіть пріоритетність завдання</string>
+    <string name="select_employee">Виберіть співробітника</string>
+    <string name="title">Назва</string>
+    <string name="enter_task_title">Введіть назву завдання</string>
+    <string name="description">Опис</string>
+    <string name="enter_task_description">Введіть опис завдання</string>
+    <string name="back">Назад</string>
+    <array name="statuses">
+        <item>Не розпочато</item>
+        <item>У процесі</item>
+        <item>Завершено</item>
+        <item>На перевірці</item>
+    </array>
+
 </resources>
