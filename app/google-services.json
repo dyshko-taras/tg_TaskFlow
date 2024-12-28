@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "743681486599",
+    "project_id": "taskflow-7a079",
+    "storage_bucket": "taskflow-7a079.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743681486599:android:51c4df7c06859e27181fa2",
+        "android_client_info": {
+          "package_name": "com.student.taskflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhvCnLlZ-r8HedI5dmalzOwAgWktJf9gE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

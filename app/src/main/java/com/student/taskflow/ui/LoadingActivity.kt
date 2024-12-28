@@ -8,6 +8,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.student.taskflow.R
+import com.student.taskflow.repository.local.SharedPreferencesRepository
+import com.student.taskflow.util.NetworkUtils
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoadingActivity : AppCompatActivity() {
@@ -20,14 +23,30 @@ class LoadingActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        navigateToAuthorization()
+        SharedPreferencesRepository.initialize(this)
+        navigateToNextActivity()
     }
 
     private fun navigateToAuthorization() {
+        val intent = Intent(this@LoadingActivity, AuthorizationActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToMain() {
+        val intent = Intent(this@LoadingActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToNextActivity() {
         lifecycleScope.launch {
-            val intent = Intent(this@LoadingActivity, AuthorizationActivity::class.java)
-            startActivity(intent)
-            finish()
+            delay(3000)
+            if (SharedPreferencesRepository.isLoggedIn() && NetworkUtils.isInternetAvailable(this@LoadingActivity)) {
+                navigateToMain()
+            } else {
+                navigateToAuthorization()
+            }
         }
     }
 }
