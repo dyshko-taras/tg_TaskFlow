@@ -15,6 +15,10 @@
     <string name="register">Реєстрація</string>
     <string name="welcome_back">З поверненням!</string>
     <string name="create_account">Будь ласка, придумайте акаунт</string>
+    <string name="your_name">Ваше ім\'я</string>
+    <string name="group_name">Назва групи</string>
+    <string name="enter_group_id">Введіть Group ID, наданий вашим адміністратором</string>
+    <string name="group_id">Group ID</string>
     <string name="password_requirements">Твій пароль повинен містити:</string>
     <string name="password_minimum_length">Не менше 6 символів</string>
     <string name="password_numbers">Цифри</string>
@@ -29,6 +33,7 @@
     <string name="description">Опис</string>
     <string name="enter_task_description">Введіть опис завдання</string>
     <string name="back">Назад</string>
+
     <array name="statuses">
         <item>Не розпочато</item>
         <item>У процесі</item>
