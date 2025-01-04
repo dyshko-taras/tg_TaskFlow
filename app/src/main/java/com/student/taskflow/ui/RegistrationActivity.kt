@@ -27,16 +27,38 @@ class RegistrationActivity : AppCompatActivity() {
         binding = ActivityRegistrationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupUI()
         setListener()
     }
 
+    private fun setupUI() {
+        configureUIForRole(isAdmin = true)
+    }
+
     private fun setListener() {
+        binding.chipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                var checkedId = checkedIds[0] // Get the first checked ID
+                when (checkedId) {
+                    R.id.chipAdmin -> configureUIForRole(isAdmin = true)
+                    R.id.chipEmployee -> configureUIForRole(isAdmin = false)
+                }
+            }
+        }
+
         binding.textInputLayoutEmail.setEndIconOnClickListener {
             navigateToAuthorization()
         }
 
         binding.textInputEditTextPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val text = s.toString()
                 val colorGrey = ContextCompat.getColor(binding.root.context, R.color.grey)
@@ -49,7 +71,10 @@ class RegistrationActivity : AppCompatActivity() {
 
                 binding.tvPasswordNumbers.setTextColor(if (text.containsDigit()) colorBlack else colorGrey)
                 binding.tvPasswordNumbers.setCompoundDrawablesWithIntrinsicBounds(
-                    if (text.containsDigit()) R.drawable.ic_right else R.drawable.ic_false, 0, 0, 0
+                    if (text.containsDigit()) R.drawable.ic_right else R.drawable.ic_false,
+                    0,
+                    0,
+                    0
                 )
             }
 
@@ -61,7 +86,8 @@ class RegistrationActivity : AppCompatActivity() {
             var password = binding.textInputEditTextPassword.text.toString()
             var isValidEmail = NetworkUtils.validateEmail(email)
             var isValidPassword = password.length >= 6 && password.containsDigit()
-            var isInternetAvailable = NetworkUtils.isInternetAvailable(this@RegistrationActivity)
+            var isInternetAvailable =
+                NetworkUtils.isInternetAvailable(this@RegistrationActivity)
 
             if (!isInternetAvailable) {
                 Toast.makeText(
@@ -76,13 +102,13 @@ class RegistrationActivity : AppCompatActivity() {
                 registerWithEmailAndPassword(email, password)
             } else if (!isValidEmail) {
                 Toast.makeText(
-                    this@RegistrationActivity,
+                    this,
                     "Please enter a valid email address.",
                     Toast.LENGTH_LONG
                 ).show()
             } else {
                 Toast.makeText(
-                    this@RegistrationActivity,
+                    this,
                     "Your password must contain at least 6 characters and a number.",
                     Toast.LENGTH_LONG
                 ).show()
@@ -128,5 +154,13 @@ class RegistrationActivity : AppCompatActivity() {
     private fun hideLoading() {
         binding.dimBackground.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
+    }
+
+    private fun configureUIForRole(isAdmin: Boolean) {
+        binding.tvGroupId.visibility = if (isAdmin) View.GONE else View.VISIBLE
+        binding.textInputLayoutGroupId.visibility = if (isAdmin) View.GONE else View.VISIBLE
+        binding.textInputEditTextGroupId.visibility = if (isAdmin) View.GONE else View.VISIBLE
+        binding.textInputLayoutGroupName.visibility = if (isAdmin) View.VISIBLE else View.GONE
+        binding.textInputEditTextGroupName.visibility = if (isAdmin) View.VISIBLE else View.GONE
     }
 }
