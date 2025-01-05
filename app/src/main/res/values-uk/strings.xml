@@ -26,7 +26,14 @@
     <string name="hello">"Привіт, "</string>
     <string name="create_new_task">Створити нове завдання</string>
     <string name="status">Статус</string>
+    <string name="not_started">Не розпочато</string>
+    <string name="in_progress">У процесі</string>
+    <string name="completed">Завершено</string>
+    <string name="under_review">На перевірці</string>
     <string name="select_priority">Виберіть пріоритетність завдання</string>
+    <string name="high">Високий</string>
+    <string name="medium">Середній</string>
+    <string name="low">Низький</string>
     <string name="select_employee">Виберіть співробітника</string>
     <string name="title">Назва</string>
     <string name="enter_task_title">Введіть назву завдання</string>

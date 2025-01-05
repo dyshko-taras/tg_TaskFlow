@@ -3,74 +3,66 @@ package com.student.taskflow.repository.network
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.student.taskflow.repository.local.SharedPreferencesRepository
-import com.student.taskflow.util.Result
 import kotlinx.coroutines.tasks.await
 
 object FirebaseAuthRepository {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    suspend fun signInWithEmailAndPassword(email: String, password: String): Result {
+    suspend fun signInWithEmailAndPassword(email: String, password: String): Result<String> {
         try {
             val authResult = auth.signInWithEmailAndPassword(email, password).await()
             val userId = authResult.user?.uid
 
             if (userId == null) {
-                return Result.Failure("Sign-in failed: User ID is null")
+                return Result.failure(Exception("Sign-in failed: User ID is null"))
             }
             SharedPreferencesRepository.setClientId(userId)
-            return Result.Success("Sign-in successful")
+            return Result.success("Sign-in successful")
         } catch (e: FirebaseAuthException) {
-
-            return when (e.errorCode) {
-                "ERROR_INVALID_CREDENTIAL" -> Result.Failure("Invalid credentials provided.")
-                "ERROR_INVALID_EMAIL" -> Result.Failure("Invalid email address.")
-                "ERROR_WRONG_PASSWORD" -> Result.Failure("Incorrect password.")
-                "ERROR_USER_NOT_FOUND" -> Result.Failure("No user found with this email.")
-                else -> Result.Failure("Authentication failed: ${e.message}")
-            }
+            return Result.failure(Exception("Sign-in failed: ${e.message}"))
         } catch (e: Exception) {
-            return Result.Failure("Sign-in failed: ${e.localizedMessage}")
+            return Result.failure(e)
         }
     }
 
-    suspend fun registerWithEmailAndPassword(email: String, password: String): Result {
+    suspend fun registerWithEmailAndPassword(email: String, password: String): Result<String> {
         try {
             val authResult = auth.createUserWithEmailAndPassword(email, password).await()
             val userId = authResult.user?.uid
 
             if (userId == null) {
-                return Result.Failure("Registration failed: User ID is null")
+                return Result.failure(Exception("Registration failed: User ID is null"))
             }
             SharedPreferencesRepository.setClientId(userId)
-            return Result.Success("Registration successful")
+            return Result.success("Registration successful")
         } catch (e: FirebaseAuthException) {
-            return Result.Failure("Registration failed: ${e.message}")
+            return Result.failure(Exception("Registration failed: ${e.message}"))
         } catch (e: Exception) {
-            return Result.Failure("Registration failed: ${e.localizedMessage}")
+            return Result.failure(e)
         }
     }
 
-    suspend fun resetPassword(email: String): Result {
-        try {
+    suspend fun resetPassword(email: String): Result<String> {
+        return try {
             auth.sendPasswordResetEmail(email).await()
-            return Result.Success("Password reset email sent successfully")
+            Result.success("Password reset email sent successfully")
         } catch (e: FirebaseAuthException) {
-            return Result.Failure("Failed to send password reset email: ${e.message}")
+            Result.failure(Exception("Failed to send password reset email: ${e.message}"))
         } catch (e: Exception) {
-            return Result.Failure("Failed to send password reset email: ${e.localizedMessage}")
+            Result.failure(e)
         }
     }
 
-    fun signOut(): Result {
+    fun signOut(): Result<String> {
         try {
             auth.signOut()
             SharedPreferencesRepository.clearClientId()
-            return Result.Success("Sign-out successful")
+            return Result.success("Sign-out successful")
         } catch (e: FirebaseAuthException) {
-            return Result.Failure("Sign-out failed: ${e.message}")
+            return Result.failure(Exception("Sign-out failed: ${e.message}"))
         } catch (e: Exception) {
-            return Result.Failure("Sign-out failed: ${e.localizedMessage}")
+            return Result.failure(e)
         }
     }
 }

@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import com.student.taskflow.databinding.ActivityAuthorizationBinding
 import com.student.taskflow.repository.network.FirebaseAuthRepository
 import com.student.taskflow.util.NetworkUtils
-import com.student.taskflow.util.Result
 import com.student.taskflow.util.containsDigit
 import kotlinx.coroutines.launch
 
@@ -47,21 +46,12 @@ class AuthorizationActivity : AppCompatActivity() {
                 ).show()
                 return@setOnClickListener
             }
-
             if (isValidEmail && isValidPassword) {
                 signInWithEmailAndPassword(email, password)
             } else if (!isValidEmail) {
-                Toast.makeText(
-                    this@AuthorizationActivity,
-                    "Email is not valid",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, "Email is not valid", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(
-                    this@AuthorizationActivity,
-                    "Password is not valid",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, "Password is not valid", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -83,22 +73,12 @@ class AuthorizationActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = FirebaseAuthRepository.signInWithEmailAndPassword(email, password)
             hideLoading()
-            when (result) {
-                is Result.Success -> {
-                    Toast.makeText(
-                        this@AuthorizationActivity,
-                        result.message,
-                        Toast.LENGTH_LONG
-                    ).show()
-                    navigateToMain()
-                }
-
-                is Result.Failure -> Toast.makeText(
-                    this@AuthorizationActivity,
-                    result.message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            result.fold(onSuccess = {
+                Toast.makeText(this@AuthorizationActivity, it, Toast.LENGTH_LONG).show()
+                navigateToMain()
+            }, onFailure = {
+                Toast.makeText(this@AuthorizationActivity, it, Toast.LENGTH_LONG).show()
+            })
         }
     }
 

@@ -14,7 +14,6 @@ import com.student.taskflow.R
 import com.student.taskflow.databinding.ActivityRegistrationBinding
 import com.student.taskflow.repository.network.FirebaseAuthRepository
 import com.student.taskflow.util.NetworkUtils
-import com.student.taskflow.util.Result
 import com.student.taskflow.util.containsDigit
 import kotlinx.coroutines.launch
 
@@ -127,22 +126,15 @@ class RegistrationActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result = FirebaseAuthRepository.registerWithEmailAndPassword(email, password)
             hideLoading()
-            when (result) {
-                is Result.Success -> {
-                    Toast.makeText(
-                        this@RegistrationActivity,
-                        result.message,
-                        Toast.LENGTH_LONG
-                    ).show()
+            result.fold(
+                onSuccess = {
+                    Toast.makeText(this@RegistrationActivity, it, Toast.LENGTH_LONG).show()
                     navigateToAuthorization()
+                },
+                onFailure = {
+                    Toast.makeText(this@RegistrationActivity, it, Toast.LENGTH_LONG).show()
                 }
-
-                is Result.Failure -> Toast.makeText(
-                    this@RegistrationActivity,
-                    result.message,
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            )
         }
     }
 
