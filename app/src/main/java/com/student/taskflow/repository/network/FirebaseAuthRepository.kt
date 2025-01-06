@@ -17,8 +17,7 @@ object FirebaseAuthRepository {
             if (userId == null) {
                 return Result.failure(Exception("Sign-in failed: User ID is null"))
             }
-            SharedPreferencesRepository.setClientId(userId)
-            return Result.success("Sign-in successful")
+            return Result.success(userId)
         } catch (e: FirebaseAuthException) {
             return Result.failure(Exception("Sign-in failed: ${e.message}"))
         } catch (e: Exception) {
@@ -34,8 +33,7 @@ object FirebaseAuthRepository {
             if (userId == null) {
                 return Result.failure(Exception("Registration failed: User ID is null"))
             }
-            SharedPreferencesRepository.setClientId(userId)
-            return Result.success("Registration successful")
+            return Result.success(userId)
         } catch (e: FirebaseAuthException) {
             return Result.failure(Exception("Registration failed: ${e.message}"))
         } catch (e: Exception) {
@@ -57,7 +55,7 @@ object FirebaseAuthRepository {
     fun signOut(): Result<String> {
         try {
             auth.signOut()
-            SharedPreferencesRepository.clearClientId()
+            SharedPreferencesRepository.clearUser()
             return Result.success("Sign-out successful")
         } catch (e: FirebaseAuthException) {
             return Result.failure(Exception("Sign-out failed: ${e.message}"))

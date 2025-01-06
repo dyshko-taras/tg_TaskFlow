@@ -39,6 +39,12 @@
     <string name="description">Description</string>
     <string name="enter_task_description">Enter task description</string>
     <string name="back">Back</string>
+    <string name="check_internet_connection">Please check your internet connection.</string>
+    <string name="fill_all_fields">Please fill all fields.</string>
+    <string name="enter_valid_email">Please enter a valid email address.</string>
+    <string name="password_requirements_error">Your password must contain at least 6 characters and a number.</string>
+    <string name="invalid_role_selected">Selected role is not right.</string>
+
     <array name="statuses">
         <item>Not started</item>
         <item>In progress</item>

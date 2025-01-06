@@ -7,15 +7,21 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.student.taskflow.R
 import com.student.taskflow.databinding.ActivityRegistrationBinding
+import com.student.taskflow.model.Group
+import com.student.taskflow.model.User
+import com.student.taskflow.model.enums.Role
 import com.student.taskflow.repository.network.FirebaseAuthRepository
+import com.student.taskflow.repository.network.FirebaseFirestoreRepository
 import com.student.taskflow.util.NetworkUtils
 import com.student.taskflow.util.containsDigit
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegistrationBinding
@@ -50,13 +56,9 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         binding.textInputEditTextPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val text = s.toString()
@@ -70,48 +72,109 @@ class RegistrationActivity : AppCompatActivity() {
 
                 binding.tvPasswordNumbers.setTextColor(if (text.containsDigit()) colorBlack else colorGrey)
                 binding.tvPasswordNumbers.setCompoundDrawablesWithIntrinsicBounds(
-                    if (text.containsDigit()) R.drawable.ic_right else R.drawable.ic_false,
-                    0,
-                    0,
-                    0
+                    if (text.containsDigit()) R.drawable.ic_right else R.drawable.ic_false, 0, 0, 0
                 )
             }
-
-            override fun afterTextChanged(s: Editable?) {}
         })
 
         binding.btnSave.setOnClickListener {
+            var isAdmin = binding.chipAdmin.isChecked
             var email = binding.textInputEditTextEmail.text.toString()
+            var yourName = binding.textInputEditTextYourName.text.toString()
+            var groupName = binding.textInputEditTextGroupName.text.toString()
+            var groupId = binding.textInputEditTextGroupId.text.toString()
             var password = binding.textInputEditTextPassword.text.toString()
+
+
             var isValidEmail = NetworkUtils.validateEmail(email)
             var isValidPassword = password.length >= 6 && password.containsDigit()
-            var isInternetAvailable =
-                NetworkUtils.isInternetAvailable(this@RegistrationActivity)
+            var isInternetAvailable = NetworkUtils.isInternetAvailable(this@RegistrationActivity)
+            var isFieldsEmptyForAdmin =
+                isAdmin && (yourName.isEmpty() || email.isEmpty() || password.isEmpty() || groupName.isEmpty())
+            var isFieldsEmptyForEmployee =
+                !isAdmin && (yourName.isEmpty() || email.isEmpty() || password.isEmpty() || groupId.isEmpty())
 
             if (!isInternetAvailable) {
-                Toast.makeText(
-                    this@RegistrationActivity,
-                    "Please check your internet connection.",
-                    Toast.LENGTH_LONG
-                ).show()
+                showToast(R.string.check_internet_connection)
+                return@setOnClickListener
+            }
+            if (isFieldsEmptyForAdmin || isFieldsEmptyForEmployee) {
+                showToast(R.string.fill_all_fields)
+                return@setOnClickListener
+            }
+            if (!isValidEmail) {
+                showToast(R.string.enter_valid_email)
+                return@setOnClickListener
+            }
+            if (!isValidPassword) {
+                showToast(R.string.password_requirements_error)
                 return@setOnClickListener
             }
 
-            if (isValidEmail && isValidPassword) {
-                registerWithEmailAndPassword(email, password)
-            } else if (!isValidEmail) {
-                Toast.makeText(
-                    this,
-                    "Please enter a valid email address.",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Your password must contain at least 6 characters and a number.",
-                    Toast.LENGTH_LONG
-                ).show()
+            var newGroupForAdmin = Group(
+                id = UUID.randomUUID().toString(), name = groupName
+            )
+            var user = User(
+                id = "",
+                groupId = if (isAdmin) "" else groupId,
+                role = if (isAdmin) Role.ADMIN else Role.EMPLOYEE,
+                name = yourName,
+                email = email
+            )
+
+            registerWithEmailAndPassword(email, password, user, newGroupForAdmin)
+        }
+    }
+
+    private fun registerWithEmailAndPassword(
+        email: String, password: String, user: User, group: Group
+    ) {
+        lifecycleScope.launch {
+            showLoading()
+            val authResult = FirebaseAuthRepository.registerWithEmailAndPassword(email, password)
+            authResult.onSuccess { userId ->
+                user.id = userId
+                handleUserRole(user, group)
+            }.onFailure { error ->
+                showToast(error.message.toString())
             }
+            hideLoading()
+        }
+    }
+
+    private suspend fun handleUserRole(user: User, group: Group) {
+        if (user.role == Role.ADMIN) handleAdminRole(user, group) else handleEmployeeRole(user)
+    }
+
+    private suspend fun handleAdminRole(user: User, group: Group) {
+        var firestoreRepository = FirebaseFirestoreRepository()
+        user.groupId = group.id
+        firestoreRepository.addGroup(group).onSuccess {
+            firestoreRepository.addUser(user).onSuccess {
+                navigateToAuthorization()
+            }.onFailure {
+                showToast(it.message.toString())
+            }
+        }.onFailure {
+            showToast(it.message.toString())
+        }
+    }
+
+    private suspend fun handleEmployeeRole(user: User) {
+        var firestoreRepository = FirebaseFirestoreRepository()
+        var result = firestoreRepository.isGroupExists(user.groupId)
+        result.onSuccess { isGroupExists ->
+            if (isGroupExists) {
+                firestoreRepository.addUser(user).onSuccess {
+                    navigateToAuthorization()
+                }.onFailure {
+                    showToast(it.message.toString())
+                }
+            } else {
+                showToast("Group does not exist")
+            }
+        }.onFailure {
+            showToast(it.message.toString())
         }
     }
 
@@ -119,23 +182,6 @@ class RegistrationActivity : AppCompatActivity() {
         val intent = Intent(this@RegistrationActivity, AuthorizationActivity::class.java)
         startActivity(intent)
         finish()
-    }
-
-    private fun registerWithEmailAndPassword(email: String, password: String) {
-        showLoading()
-        lifecycleScope.launch {
-            val result = FirebaseAuthRepository.registerWithEmailAndPassword(email, password)
-            hideLoading()
-            result.fold(
-                onSuccess = {
-                    Toast.makeText(this@RegistrationActivity, it, Toast.LENGTH_LONG).show()
-                    navigateToAuthorization()
-                },
-                onFailure = {
-                    Toast.makeText(this@RegistrationActivity, it, Toast.LENGTH_LONG).show()
-                }
-            )
-        }
     }
 
     private fun showLoading() {
@@ -154,5 +200,13 @@ class RegistrationActivity : AppCompatActivity() {
         binding.textInputEditTextGroupId.visibility = if (isAdmin) View.GONE else View.VISIBLE
         binding.textInputLayoutGroupName.visibility = if (isAdmin) View.VISIBLE else View.GONE
         binding.textInputEditTextGroupName.visibility = if (isAdmin) View.VISIBLE else View.GONE
+    }
+
+    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this@RegistrationActivity, message, duration).show()
+    }
+
+    fun showToast(@StringRes messageResId: Int, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this@RegistrationActivity, messageResId, duration).show()
     }
 }

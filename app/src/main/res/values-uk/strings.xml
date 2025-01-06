@@ -40,6 +40,12 @@
     <string name="description">Опис</string>
     <string name="enter_task_description">Введіть опис завдання</string>
     <string name="back">Назад</string>
+    <string name="check_internet_connection">Будь ласка, перевірте підключення до Інтернету.</string>
+    <string name="fill_all_fields">Будь ласка, заповніть усі поля.</string>
+    <string name="enter_valid_email">Будь ласка, введіть дійсну адресу електронної пошти.</string>
+    <string name="password_requirements_error">Ваш пароль має містити щонайменше 6 символів та одну цифру.</string>
+    <string name="invalid_role_selected">Обрана роль не є правильною.</string>
+
 
     <array name="statuses">
         <item>Не розпочато</item>

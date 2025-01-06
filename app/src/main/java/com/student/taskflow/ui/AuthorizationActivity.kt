@@ -5,10 +5,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.student.taskflow.R
 import com.student.taskflow.databinding.ActivityAuthorizationBinding
+import com.student.taskflow.model.enums.Role
+import com.student.taskflow.repository.local.SharedPreferencesRepository
 import com.student.taskflow.repository.network.FirebaseAuthRepository
+import com.student.taskflow.repository.network.FirebaseFirestoreRepository
 import com.student.taskflow.util.NetworkUtils
 import com.student.taskflow.util.containsDigit
 import kotlinx.coroutines.launch
@@ -30,29 +35,59 @@ class AuthorizationActivity : AppCompatActivity() {
         binding.tvRegister.setOnClickListener {
             navigateToRegistration()
         }
+
         binding.btnLogin.setOnClickListener {
+            var isAdmin = binding.chipAdmin.isChecked
             var email = binding.textInputEditTextEmail.text.toString()
             var password = binding.textInputEditTextPassword.text.toString()
+
+
             var isValidEmail = NetworkUtils.validateEmail(email)
             var isValidPassword = password.length >= 6 && password.containsDigit()
-
             var isInternetAvailable = NetworkUtils.isInternetAvailable(this@AuthorizationActivity)
 
             if (!isInternetAvailable) {
-                Toast.makeText(
-                    this@AuthorizationActivity,
-                    "Please check your internet connection.",
-                    Toast.LENGTH_LONG
-                ).show()
+                showToast(R.string.check_internet_connection)
                 return@setOnClickListener
             }
-            if (isValidEmail && isValidPassword) {
-                signInWithEmailAndPassword(email, password)
-            } else if (!isValidEmail) {
-                Toast.makeText(this, "Email is not valid", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "Password is not valid", Toast.LENGTH_LONG).show()
+            if (!isValidEmail) {
+                showToast(R.string.enter_valid_email)
+                return@setOnClickListener
             }
+            if (!isValidPassword) {
+                showToast(R.string.password_requirements_error)
+                return@setOnClickListener
+            }
+
+            signInWithEmailAndPassword(email, password, isAdmin)
+        }
+    }
+
+    private fun signInWithEmailAndPassword(email: String, password: String, isAdmin: Boolean) {
+        lifecycleScope.launch {
+            showLoading()
+            val resultAuth = FirebaseAuthRepository.signInWithEmailAndPassword(email, password)
+            resultAuth.onSuccess { userId ->
+                handleSignInResult(userId, isAdmin)
+            }.onFailure { error ->
+                showToast(error.message.toString())
+            }
+            hideLoading()
+        }
+    }
+
+    private suspend fun handleSignInResult(userId: String, isAdmin: Boolean) {
+        var firestoreRepository = FirebaseFirestoreRepository()
+        var result = firestoreRepository.getUserById(userId)
+        result.onSuccess { user ->
+            if (user.role == Role.ADMIN && isAdmin || user.role == Role.EMPLOYEE && !isAdmin) {
+                SharedPreferencesRepository.setUser(user)
+                navigateToMain()
+            } else {
+                showToast(R.string.invalid_role_selected)
+            }
+        }.onFailure { error ->
+            showToast(error.message.toString())
         }
     }
 
@@ -68,20 +103,6 @@ class AuthorizationActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun signInWithEmailAndPassword(email: String, password: String) {
-        showLoading()
-        lifecycleScope.launch {
-            val result = FirebaseAuthRepository.signInWithEmailAndPassword(email, password)
-            hideLoading()
-            result.fold(onSuccess = {
-                Toast.makeText(this@AuthorizationActivity, it, Toast.LENGTH_LONG).show()
-                navigateToMain()
-            }, onFailure = {
-                Toast.makeText(this@AuthorizationActivity, it, Toast.LENGTH_LONG).show()
-            })
-        }
-    }
-
     private fun showLoading() {
         binding.dimBackground.visibility = View.VISIBLE
         binding.progressBar.visibility = View.VISIBLE
@@ -90,5 +111,13 @@ class AuthorizationActivity : AppCompatActivity() {
     private fun hideLoading() {
         binding.dimBackground.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
+    }
+
+    fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this@AuthorizationActivity, message, duration).show()
+    }
+
+    fun showToast(@StringRes messageResId: Int, duration: Int = Toast.LENGTH_SHORT) {
+        Toast.makeText(this@AuthorizationActivity, messageResId, duration).show()
     }
 }
