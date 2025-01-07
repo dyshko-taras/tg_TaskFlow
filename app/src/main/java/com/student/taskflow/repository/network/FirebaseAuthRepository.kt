@@ -2,7 +2,6 @@ package com.student.taskflow.repository.network
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import com.student.taskflow.repository.local.SharedPreferencesRepository
 import kotlinx.coroutines.tasks.await
 
 object FirebaseAuthRepository {
@@ -55,8 +54,7 @@ object FirebaseAuthRepository {
     fun signOut(): Result<String> {
         try {
             auth.signOut()
-            SharedPreferencesRepository.clearUser()
-            return Result.success("Sign-out successful")
+            return Result.success("")
         } catch (e: FirebaseAuthException) {
             return Result.failure(Exception("Sign-out failed: ${e.message}"))
         } catch (e: Exception) {

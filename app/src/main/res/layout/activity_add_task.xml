@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
     tools:context=".ui.AddTaskActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -14,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +25,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +35,6 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
             android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
@@ -57,11 +54,38 @@
                 android:text="@string/status" />
 
             <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/prioritySpinner"
+                android:id="@+id/spinnerStatus"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/shape_priority"
+                android:background="@drawable/shape_spinner"
+                android:gravity="start|center_vertical"
+                android:hint="@string/select_status"
+                android:paddingHorizontal="10dp"
+                android:textAppearance="@style/f12RegularBlack"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_padding="8dp"
+                app:spinner_arrow_tint="@color/grey"
+                app:spinner_item_height="46dp"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_background="@color/white"
+                app:spinner_popup_elevation="14dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/f12BoldBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/priority" />
+
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/spinnerPriority"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/shape_spinner"
                 android:gravity="start|center_vertical"
                 android:hint="@string/select_priority"
                 android:paddingHorizontal="10dp"
@@ -71,7 +95,6 @@
                 app:spinner_arrow_gravity="end"
                 app:spinner_arrow_padding="8dp"
                 app:spinner_arrow_tint="@color/grey"
-                app:spinner_item_array="@array/statuses"
                 app:spinner_item_height="46dp"
                 app:spinner_popup_animation="dropdown"
                 app:spinner_popup_background="@color/white"
@@ -85,13 +108,13 @@
                 android:text="@string/employee" />
 
             <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/employeeSpinner"
+                android:id="@+id/spinnerEmployee"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/shape_priority"
+                android:background="@drawable/shape_spinner"
                 android:gravity="start|center_vertical"
-                android:hint="@string/select_priority"
+                android:hint="@string/select_employee"
                 android:paddingHorizontal="10dp"
                 android:textAppearance="@style/f12RegularBlack"
                 android:textColor="@color/black"
@@ -99,7 +122,6 @@
                 app:spinner_arrow_gravity="end"
                 app:spinner_arrow_padding="8dp"
                 app:spinner_arrow_tint="@color/grey"
-                app:spinner_item_array="@array/statuses"
                 app:spinner_item_height="46dp"
                 app:spinner_popup_animation="dropdown"
                 app:spinner_popup_background="@color/white"
@@ -120,7 +142,7 @@
                 android:layout_marginTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextEmail"
+                    android:id="@+id/textInputEditTextTitle"
                     style="@style/textInputEditTextSmallStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -157,40 +179,42 @@
                     android:paddingVertical="8dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginVertical="30dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnCancel"
+                    style="@style/mediumButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/grey"
+                    android:text="@string/back" />
+
+                <Space
+                    android:layout_width="23dp"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSave"
+                    style="@style/mediumButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/save"
+                    android:textColor="@color/white" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonCancel"
-            style="@style/mediumButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/grey"
-            android:text="@string/back" />
-
-        <Space
-            android:layout_width="23dp"
-            android:layout_height="wrap_content" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonAddTask"
-            style="@style/mediumButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/save"
-            android:textColor="@color/white" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

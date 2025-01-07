@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TaskFlow</string>
     <string name="taskflow">TaskFlow.</string>
@@ -29,10 +30,12 @@
     <string name="in_progress">In Progress</string>
     <string name="completed">Completed</string>
     <string name="under_review">Under Review</string>
-    <string name="select_priority">Select task priority</string>
+    <string name="select_status">Select task status</string>
+    <string name="priority">Priority</string>
     <string name="high">High</string>
     <string name="medium">Medium</string>
     <string name="low">Low</string>
+    <string name="select_priority">Select task priority</string>
     <string name="select_employee">Select employee</string>
     <string name="title">Title</string>
     <string name="enter_task_title">Enter task title</string>
@@ -44,11 +47,11 @@
     <string name="enter_valid_email">Please enter a valid email address.</string>
     <string name="password_requirements_error">Your password must contain at least 6 characters and a number.</string>
     <string name="invalid_role_selected">Selected role is not right.</string>
+    <string name="group_not_exist">Group does not exist</string>
+    <string name="id_copied">ID copied</string>
+    <string name="task_saved_successfully">The task was saved successfully</string>
+    <string name="copy_group_id">Copy Group ID</string>
+    <string name="sign_out">Sign out</string>
+    <string name="log_out_successful">Sign-out successful</string>
 
-    <array name="statuses">
-        <item>Not started</item>
-        <item>In progress</item>
-        <item>Completed</item>
-        <item>Under review</item>
-    </array>
 </resources>

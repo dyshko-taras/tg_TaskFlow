@@ -30,10 +30,12 @@
     <string name="in_progress">У процесі</string>
     <string name="completed">Завершено</string>
     <string name="under_review">На перевірці</string>
-    <string name="select_priority">Виберіть пріоритетність завдання</string>
+    <string name="select_status">Виберіть статус завдання</string>
+    <string name="priority">Пріоритет</string>
     <string name="high">Високий</string>
     <string name="medium">Середній</string>
     <string name="low">Низький</string>
+    <string name="select_priority">Виберіть пріоритет завдання</string>
     <string name="select_employee">Виберіть співробітника</string>
     <string name="title">Назва</string>
     <string name="enter_task_title">Введіть назву завдання</string>
@@ -45,13 +47,11 @@
     <string name="enter_valid_email">Будь ласка, введіть дійсну адресу електронної пошти.</string>
     <string name="password_requirements_error">Ваш пароль має містити щонайменше 6 символів та одну цифру.</string>
     <string name="invalid_role_selected">Обрана роль не є правильною.</string>
-
-
-    <array name="statuses">
-        <item>Не розпочато</item>
-        <item>У процесі</item>
-        <item>Завершено</item>
-        <item>На перевірці</item>
-    </array>
+    <string name="group_not_exist">Група не існує</string>
+    <string name="id_copied">ID скопійовано</string>
+    <string name="task_saved_successfully">Завдання успішно збережено</string>
+    <string name="copy_group_id">Скопіювати Group ID</string>
+    <string name="sign_out">Вихід</string>
+    <string name="log_out_successful">Вихід успішно виконано</string>
 
 </resources>

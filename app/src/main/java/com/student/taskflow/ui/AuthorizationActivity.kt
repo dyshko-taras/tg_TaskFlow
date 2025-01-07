@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 class AuthorizationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAuthorizationBinding
+    private val firestoreRepository = FirebaseFirestoreRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,7 +78,6 @@ class AuthorizationActivity : AppCompatActivity() {
     }
 
     private suspend fun handleSignInResult(userId: String, isAdmin: Boolean) {
-        var firestoreRepository = FirebaseFirestoreRepository()
         var result = firestoreRepository.getUserById(userId)
         result.onSuccess { user ->
             if (user.role == Role.ADMIN && isAdmin || user.role == Role.EMPLOYEE && !isAdmin) {

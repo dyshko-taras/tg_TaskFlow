@@ -25,6 +25,7 @@ import java.util.UUID
 
 class RegistrationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegistrationBinding
+    private val firestoreRepository = FirebaseFirestoreRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,7 +148,6 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private suspend fun handleAdminRole(user: User, group: Group) {
-        var firestoreRepository = FirebaseFirestoreRepository()
         user.groupId = group.id
         firestoreRepository.addGroup(group).onSuccess {
             firestoreRepository.addUser(user).onSuccess {
@@ -161,7 +161,6 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private suspend fun handleEmployeeRole(user: User) {
-        var firestoreRepository = FirebaseFirestoreRepository()
         var result = firestoreRepository.isGroupExists(user.groupId)
         result.onSuccess { isGroupExists ->
             if (isGroupExists) {
@@ -171,7 +170,7 @@ class RegistrationActivity : AppCompatActivity() {
                     showToast(it.message.toString())
                 }
             } else {
-                showToast("Group does not exist")
+                showToast(R.string.group_not_exist)
             }
         }.onFailure {
             showToast(it.message.toString())

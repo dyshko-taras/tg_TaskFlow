@@ -21,10 +21,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:logo="@drawable/ic_y"
         app:logoDescription="@string/app_name"
-        app:title="@string/hello"
+        tools:title="hello"
         app:titleMarginStart="30dp"
         app:titleTextAppearance="@style/f25BoldBlack"
         app:titleTextColor="@color/black">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnMore"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end|center_vertical"
+            android:padding="5dp"
+            android:src="@drawable/ic_vertical_dots" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/btnFilter"
@@ -36,6 +44,7 @@
             android:contentDescription="@null"
             android:padding="5dp"
             android:src="@drawable/ic_filter" />
+
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
