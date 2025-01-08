@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="0dp"
     app:cardUseCompatPadding="true"
     app:strokeColor="@android:color/transparent">
 
@@ -48,9 +48,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:gravity="start|center_vertical"
             android:orientation="horizontal"
+            android:paddingVertical="20dp"
             app:layout_constraintEnd_toStartOf="@+id/btnMore"
             app:layout_constraintStart_toStartOf="@+id/txDescription"
             app:layout_constraintTop_toBottomOf="@+id/txDescription">
@@ -62,25 +62,28 @@
                 android:background="@drawable/shape_schedule"
                 android:drawableStart="@drawable/ic_schedule"
                 android:drawablePadding="10dp"
-                android:textAppearance="@style/f12RegularWhite"
-                android:textColor="@color/dark_grey"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="5dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txDescription"
-                tools:text="виконати до: 20 грудня" />
+                android:textAppearance="@style/f12RegularWhite"
+                android:textColor="@color/dark_grey"
+                tools:text="виконати до: 01.01.2023" />
 
             <View
-                android:id="@+id/viewPriority"
+                android:id="@+id/viewStatus"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/shape_schedule"
-                android:backgroundTint="@color/orange"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txDescription"
-                tools:text="виконати до: 20 грудня" />
+                android:backgroundTint="@color/orange" />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txPriority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:textAppearance="@style/f18BoldBlack"
+                android:textColor="@color/red"
+                tools:text="@string/low" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -95,4 +98,11 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="bottom"
+        android:background="@color/blue" />
+
 </com.google.android.material.card.MaterialCardView>

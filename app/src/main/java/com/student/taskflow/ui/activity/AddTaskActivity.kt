@@ -1,4 +1,4 @@
-package com.student.taskflow.ui
+package com.student.taskflow.ui.activity
 
 import android.content.Intent
 import android.os.Bundle

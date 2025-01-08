@@ -53,5 +53,7 @@
     <string name="copy_group_id">Скопіювати Group ID</string>
     <string name="sign_out">Вихід</string>
     <string name="log_out_successful">Вихід успішно виконано</string>
+    <string name="due_date">Виконати до: %s</string>
+
 
 </resources>

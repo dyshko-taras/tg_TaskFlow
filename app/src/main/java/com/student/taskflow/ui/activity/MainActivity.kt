@@ -1,4 +1,4 @@
-package com.student.taskflow.ui
+package com.student.taskflow.ui.activity
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -12,16 +12,21 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.student.taskflow.R
 import com.student.taskflow.databinding.ActivityMainBinding
+import com.student.taskflow.model.Task
 import com.student.taskflow.repository.local.SharedPreferencesRepository
 import com.student.taskflow.repository.network.FirebaseAuthRepository
 import com.student.taskflow.repository.network.FirebaseFirestoreRepository
+import com.student.taskflow.ui.adapter.TaskAdapter
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val firestoreRepository = FirebaseFirestoreRepository()
+    private val user = SharedPreferencesRepository.getUser()!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         setupUI()
         setListener()
+        getTasks()
     }
 
     private fun setupUI() {
@@ -53,6 +59,24 @@ class MainActivity : AppCompatActivity() {
         binding.btnMore.setOnClickListener {
             showPopupMenu(binding.btnMore)
         }
+    }
+
+    private fun getTasks() {
+        lifecycleScope.launch {
+            val result = firestoreRepository.getListOfTasks(user.groupId)
+            result.onSuccess { tasks ->
+                initRecyclerViewTasks(tasks)
+            }.onFailure { error ->
+                showToast(error.message.toString())
+            }
+        }
+    }
+
+    private fun initRecyclerViewTasks(tasks: List<Task>) {
+        val taskAdapter = TaskAdapter(tasks) { task ->
+            println("Clicked on task: ${task.title}")
+        }
+        binding.rvTasks.adapter = taskAdapter
     }
 
     fun showPopupMenu(view: View) {

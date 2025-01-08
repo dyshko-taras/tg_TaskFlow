@@ -8,7 +8,7 @@
     android:background="@color/blue"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.LoadingActivity">
+    tools:context=".ui.activity.LoadingActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView"

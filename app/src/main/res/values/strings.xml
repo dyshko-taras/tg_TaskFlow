@@ -53,5 +53,6 @@
     <string name="copy_group_id">Copy Group ID</string>
     <string name="sign_out">Sign out</string>
     <string name="log_out_successful">Sign-out successful</string>
+    <string name="due_date">Due date: %s</string>
 
 </resources>

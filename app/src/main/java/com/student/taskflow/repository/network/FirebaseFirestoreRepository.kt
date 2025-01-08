@@ -84,10 +84,10 @@ class FirebaseFirestoreRepository {
         }
     }
 
-    suspend fun addTask(task: Task): Result<String> {
+    suspend fun addTask(task: Task): Result<Unit> {
         return try {
-            val document = getCollection(collectionTasks).add(task).await()
-            Result.success("")
+            getCollection(collectionTasks).add(task).await()
+            Result.success(Unit)
         } catch (e: FirebaseFirestoreException) {
             Result.failure(Exception("Failed to save task to Firestore: ${e.message}"))
         } catch (e: Exception) {
