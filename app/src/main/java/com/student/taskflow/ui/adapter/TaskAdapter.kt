@@ -48,7 +48,7 @@ class TaskAdapter(
             Priority.LOW -> {
                 binding.txPriority.text = binding.root.context.getString(R.string.low)
                 binding.txPriority.setTextColor(
-                    ContextCompat.getColor(binding.root.context, R.color.red)
+                    ContextCompat.getColor(binding.root.context, R.color.green)
                 )
             }
 
@@ -62,7 +62,7 @@ class TaskAdapter(
             Priority.HIGH -> {
                 binding.txPriority.text = binding.root.context.getString(R.string.high)
                 binding.txPriority.setTextColor(
-                    ContextCompat.getColor(binding.root.context, R.color.green)
+                    ContextCompat.getColor(binding.root.context, R.color.red)
                 )
             }
 

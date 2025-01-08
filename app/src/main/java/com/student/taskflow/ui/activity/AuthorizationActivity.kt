@@ -37,6 +37,9 @@ class AuthorizationActivity : AppCompatActivity() {
             navigateToRegistration()
         }
 
+        binding.tvForgotPassword.setOnClickListener {
+        }
+
         binding.btnLogin.setOnClickListener {
             var isAdmin = binding.chipAdmin.isChecked
             var email = binding.textInputEditTextEmail.text.toString()
