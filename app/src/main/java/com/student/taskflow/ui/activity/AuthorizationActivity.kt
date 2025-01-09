@@ -38,6 +38,7 @@ class AuthorizationActivity : AppCompatActivity() {
         }
 
         binding.tvForgotPassword.setOnClickListener {
+            navigateToRestorePassword()
         }
 
         binding.btnLogin.setOnClickListener {
@@ -102,6 +103,12 @@ class AuthorizationActivity : AppCompatActivity() {
 
     private fun navigateToMain() {
         val intent = Intent(this@AuthorizationActivity, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navigateToRestorePassword() {
+        val intent = Intent(this@AuthorizationActivity, RestorePasswordActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -40,10 +40,10 @@ object FirebaseAuthRepository {
         }
     }
 
-    suspend fun resetPassword(email: String): Result<String> {
+    suspend fun resetPassword(email: String): Result<Unit> {
         return try {
             auth.sendPasswordResetEmail(email).await()
-            Result.success("Password reset email sent successfully")
+            Result.success(Unit)
         } catch (e: FirebaseAuthException) {
             Result.failure(Exception("Failed to send password reset email: ${e.message}"))
         } catch (e: Exception) {

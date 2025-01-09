@@ -3,7 +3,7 @@
     <string name="app_name">TaskFlow</string>
     <string name="taskflow">TaskFlow.</string>
     <string name="your_personal_assistant">your personal assistant</string>
-    <string name="welcome">Welcome!</string>
+    <string name="welcome_first_time">Welcome! Is this your first time here?</string>
     <string name="please_log_in">Please log in to your account</string>
     <string name="administrator">Administrator</string>
     <string name="employee">Employee</string>
@@ -54,5 +54,10 @@
     <string name="sign_out">Sign out</string>
     <string name="log_out_successful">Sign-out successful</string>
     <string name="due_date">Due date: %s</string>
-
+    <string name="password_recovery">Password Recovery</string>
+    <string name="enter_email_for_link">Enter your email to receive a link</string>
+    <string name="retrieve">Retrieve</string>
+    <string name="password_reset_email_sent">Password reset email sent successfully</string>
+    <string name="position">Position</string>
+    <string name="mobile_number">Mobile Number</string>
 </resources>

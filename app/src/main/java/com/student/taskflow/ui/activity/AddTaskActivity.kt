@@ -142,8 +142,8 @@ class AddTaskActivity : AppCompatActivity() {
                 groupId = groupId,
                 title = title,
                 description = description,
-                priority = Priority.fromString(selectedPriority),
-                status = Status.fromString(selectedStatus),
+                priority = Priority.fromString(this, selectedPriority),
+                status = Status.fromString(this, selectedStatus),
                 deadline = selectedDate,
                 assignedTo = selectedEmployee,
                 isVerified = false

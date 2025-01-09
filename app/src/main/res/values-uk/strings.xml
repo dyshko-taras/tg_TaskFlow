@@ -3,7 +3,7 @@
     <string name="app_name">TaskFlow</string>
     <string name="taskflow">TaskFlow.</string>
     <string name="your_personal_assistant">твій особистий помічник</string>
-    <string name="welcome">Вітаю!</string>
+    <string name="welcome_first_time">Вітаю! Ви тут вперше?</string>
     <string name="please_log_in">Будь ласка, ввійдіть в акаунт</string>
     <string name="administrator">Адміністратор</string>
     <string name="employee">Співробітник</string>
@@ -54,6 +54,10 @@
     <string name="sign_out">Вихід</string>
     <string name="log_out_successful">Вихід успішно виконано</string>
     <string name="due_date">Виконати до: %s</string>
-
-
+    <string name="password_recovery">Відновлення паролю</string>
+    <string name="enter_email_for_link">Введіть свою пошту для отримання посилання</string>
+    <string name="retrieve">Отримати</string>
+    <string name="password_reset_email_sent">Лист для скидання паролю успішно надіслано</string>
+    <string name="position">Посада</string>
+    <string name="mobile_number">Мобільний номер</string>
 </resources>

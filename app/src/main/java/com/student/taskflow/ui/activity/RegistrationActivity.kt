@@ -82,6 +82,8 @@ class RegistrationActivity : AppCompatActivity() {
             var isAdmin = binding.chipAdmin.isChecked
             var email = binding.textInputEditTextEmail.text.toString()
             var yourName = binding.textInputEditTextYourName.text.toString()
+            var position = binding.textInputEditTextPosition.text.toString()
+            var mobileNumber = binding.textInputEditTextMobileNumber.text.toString()
             var groupName = binding.textInputEditTextGroupName.text.toString()
             var groupId = binding.textInputEditTextGroupId.text.toString()
             var password = binding.textInputEditTextPassword.text.toString()
@@ -90,10 +92,10 @@ class RegistrationActivity : AppCompatActivity() {
             var isValidEmail = NetworkUtils.validateEmail(email)
             var isValidPassword = password.length >= 6 && password.containsDigit()
             var isInternetAvailable = NetworkUtils.isInternetAvailable(this@RegistrationActivity)
-            var isFieldsEmptyForAdmin =
-                isAdmin && (yourName.isEmpty() || email.isEmpty() || password.isEmpty() || groupName.isEmpty())
-            var isFieldsEmptyForEmployee =
-                !isAdmin && (yourName.isEmpty() || email.isEmpty() || password.isEmpty() || groupId.isEmpty())
+            var isFieldsEmptyForAll =
+                (email.isEmpty() || yourName.isEmpty() || position.isEmpty() || mobileNumber.isEmpty() || password.isEmpty())
+            var isFieldsEmptyForAdmin = isAdmin && (isFieldsEmptyForAll || groupName.isEmpty())
+            var isFieldsEmptyForEmployee = !isAdmin && (isFieldsEmptyForAll || groupId.isEmpty())
 
             if (!isInternetAvailable) {
                 showToast(R.string.check_internet_connection)
@@ -120,7 +122,9 @@ class RegistrationActivity : AppCompatActivity() {
                 groupId = if (isAdmin) "" else groupId,
                 role = if (isAdmin) Role.ADMIN else Role.EMPLOYEE,
                 name = yourName,
-                email = email
+                email = email,
+                position = position,
+                mobileNumber = mobileNumber
             )
 
             registerWithEmailAndPassword(email, password, user, newGroupForAdmin)

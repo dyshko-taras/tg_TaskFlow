@@ -8,5 +8,7 @@ data class User(
     val role: Role = Role.EMPLOYEE,
     val name: String = "",
     val email: String = "",
+    val position: String = "",
+    val mobileNumber: String = "",
 )
 
