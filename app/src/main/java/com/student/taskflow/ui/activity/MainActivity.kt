@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        binding.txUserName.text = user.name.first().toString()
+        binding.txUserName.text = user.name.first().toString().uppercase()
 
         var name = SharedPreferencesRepository.getUser()?.name
         binding.txTitle.text = getString(R.string.hello, name)
@@ -80,6 +80,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnSettings.setOnClickListener {
             showSettingsPopupMenu(binding.btnSettings)
+        }
+
+        binding.btnMyGroup.setOnClickListener {
+            navigateToMyGroup()
         }
     }
 
@@ -293,6 +297,11 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this@MainActivity, AuthorizationActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun navigateToMyGroup() {
+        val intent = Intent(this@MainActivity, MyGroupActivity::class.java)
+        startActivity(intent)
     }
 
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {

@@ -65,5 +65,9 @@
     <string name="task_deleted_successfully">Task deleted successfully</string>
     <string name="edit_task">Edit Task</string>
     <string name="task_updated_successfully">Task updated successfully</string>
+    <string name="my_team">My Team</string>
+    <string name="position_line">Position - %s</string>
+    <string name="email_line">Email - %s</string>
+    <string name="mobile_number_line">Mobile Number - %s</string>
 
 </resources>

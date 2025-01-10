@@ -65,6 +65,8 @@
     <string name="task_deleted_successfully">Завдання успішно видалено</string>
     <string name="edit_task">Редагувати завдання</string>
     <string name="task_updated_successfully">Завдання успішно оновлено</string>
-
-
+    <string name="my_team">Моя команда</string>
+    <string name="position_line">Посада - %s</string>
+    <string name="email_line">Електронна пошта - %s</string>
+    <string name="mobile_number_line">Мобільний номер - %s</string>
 </resources>

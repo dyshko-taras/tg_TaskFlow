@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:gravity="top"
     android:orientation="vertical"
-    tools:context=".ui.activity.MainActivity">
+    tools:context=".ui.activity.MyGroupActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/appBar"
@@ -20,15 +20,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/txUserName"
-            android:layout_width="46dp"
-            android:layout_height="46dp"
-            android:background="@drawable/ic_circle"
-            android:gravity="center"
-            android:textAppearance="@style/f25BoldBlack"
-            tools:text="Y" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/txTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,16 +27,9 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
+            android:text="@string/my_team"
             android:textAppearance="@style/f25BoldBlack"
-            app:titleTextAppearance="@style/f25BoldBlack"
-            tools:text="Hello" />
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btnSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:src="@drawable/ic_settings" />
+            app:titleTextAppearance="@style/f25BoldBlack" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -59,11 +43,11 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTasks"
+        android:id="@+id/rv_users"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:fadeScrollbars="false"
+        android:orientation="vertical"
         android:scrollbarSize="4dp"
         android:scrollbarThumbVertical="@drawable/custom_scrollbar_thumb"
         android:scrollbarTrackVertical="@drawable/custom_scrollbar_track"
@@ -74,17 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBar"
         tools:itemCount="6"
-        tools:listitem="@layout/item_task" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/btnAddTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_button_plus" />
+        tools:listitem="@layout/item_user" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/bottomNavigation"
@@ -104,8 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@drawable/ic_home"
-            android:tint="@color/blue" />
+            android:src="@drawable/ic_home" />
 
         <Space
             android:layout_width="wrap_content"
@@ -117,7 +90,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@drawable/ic_employer" />
+            android:src="@drawable/ic_employer"
+            android:tint="@color/blue" />
 
         <Space
             android:layout_width="wrap_content"

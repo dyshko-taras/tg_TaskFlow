@@ -37,6 +37,26 @@ class FirebaseFirestoreRepository {
             if (user != null) {
                 Result.success(user)
             } else {
+                Result.failure(Exception("User not found"))
+            }
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to get user from Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getAdmin(groupId: String): Result<User> {
+        return try {
+            val document = getCollection(collectionUsers)
+                .whereEqualTo("groupId", groupId)
+                .whereEqualTo("role", Role.ADMIN.name)
+                .get()
+                .await()
+            val user = document.documents.firstOrNull()?.toObject(User::class.java)
+            if (user != null) {
+                Result.success(user)
+            } else {
                 Result.failure(Exception("User not found in Firestore"))
             }
         } catch (e: FirebaseFirestoreException) {
@@ -58,6 +78,17 @@ class FirebaseFirestoreRepository {
             Result.success(users)
         } catch (e: FirebaseFirestoreException) {
             Result.failure(Exception("Failed to get user from Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deleteUser(user: User): Result<Unit> {
+        return try {
+            getCollection(collectionUsers).document(user.id).delete().await()
+            Result.success(Unit)
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to delete user from Firestore: ${e.message}"))
         } catch (e: Exception) {
             Result.failure(e)
         }
