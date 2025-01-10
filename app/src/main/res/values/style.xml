@@ -65,10 +65,4 @@
         <item name="colorPrimary">@color/green</item>
         <item name="android:textColorPrimary">@color/black</item>
     </style>
-
-    <style name="CustomPopUpStyle" parent="Widget.AppCompat.PopupMenu">
-        <item name="android:textColor">@color/blue</item>
-        <item name="android:itemBackground">@color/red</item>
-    </style>
-
 </resources>

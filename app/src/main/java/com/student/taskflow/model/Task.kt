@@ -10,9 +10,9 @@ data class Task(
     val title: String = "",
     val description: String = "",
     val priority: Priority = Priority.LOW,
-    val status: Status = Status.NOT_STARTED,
+    var status: Status = Status.NOT_STARTED,
     val deadline: String = "",
-    val assignedTo: String = "",
+    val assignedToEmployeeId: String = "",
     var isVerified: Boolean = false
 )
 

@@ -16,6 +16,7 @@ import com.skydoves.powerspinner.IconSpinnerItem
 import com.student.taskflow.R
 import com.student.taskflow.databinding.ActivityAddTaskBinding
 import com.student.taskflow.model.Task
+import com.student.taskflow.model.User
 import com.student.taskflow.model.enums.Priority
 import com.student.taskflow.model.enums.Status
 import com.student.taskflow.repository.local.SharedPreferencesRepository
@@ -33,9 +34,10 @@ class AddTaskActivity : AppCompatActivity() {
     private var selectedDate: String = LocalDate.now().toString()
     private var selectedPriority: String = ""
     private var selectedStatus: String = ""
-    private var selectedEmployee: String = ""
+    private var selectedEmployeeIndex: Int = -1
     private var editTask: Task? = null
     private var isVerified: Boolean = false
+    private var listOfEmployees: MutableList<User> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +52,7 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         setupUI()
-        setItemsForSpinner()
+        setItemsForSpinnerEmployee()
         setListener()
         setEditTask()
     }
@@ -97,17 +99,19 @@ class AddTaskActivity : AppCompatActivity() {
         )
     }
 
-    private fun setItemsForSpinner() {
+    private fun setItemsForSpinnerEmployee() {
         lifecycleScope.launch {
             var groupId = user.groupId
             var result = firestoreRepository.getListOfEmployees(groupId)
 
             result.onSuccess { users ->
-                binding.spinnerEmployee.setItems(users.map { it.name })
+                listOfEmployees.addAll(users)
+                binding.spinnerEmployee.setItems(listOfEmployees.map { it.name })
 
                 if (editTask != null) {
-                    var selectedEmployee = editTask!!.assignedTo
-                    var selectedIndex = users.indexOfFirst { it.name == selectedEmployee }
+                    var selectedEmployeeId = editTask!!.assignedToEmployeeId
+                    var selectedIndex =
+                        users.indexOfFirst { employee -> employee.id == selectedEmployeeId }
                     binding.spinnerEmployee.selectItemByIndex(selectedIndex)
                 }
             }.onFailure { error ->
@@ -171,7 +175,7 @@ class AddTaskActivity : AppCompatActivity() {
         }
 
         binding.spinnerEmployee.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newText ->
-            selectedEmployee = newText
+            selectedEmployeeIndex = newIndex
         }
 
         binding.btnSave.setOnClickListener {
@@ -180,7 +184,7 @@ class AddTaskActivity : AppCompatActivity() {
             var description = binding.textInputEditTextDescription.text.toString()
 
             var isFieldsEmpty =
-                title.isEmpty() || description.isEmpty() || selectedPriority.isEmpty() || selectedStatus.isEmpty() || selectedEmployee.isEmpty()
+                title.isEmpty() || description.isEmpty() || selectedPriority.isEmpty() || selectedStatus.isEmpty() || selectedEmployeeIndex == -1
 
             if (isFieldsEmpty) {
                 showToast(R.string.fill_all_fields)
@@ -195,7 +199,7 @@ class AddTaskActivity : AppCompatActivity() {
                 priority = Priority.fromString(this, selectedPriority),
                 status = Status.fromString(this, selectedStatus),
                 deadline = selectedDate,
-                assignedTo = selectedEmployee,
+                assignedToEmployeeId = listOfEmployees[selectedEmployeeIndex].id,
                 isVerified = isVerified
             )
 

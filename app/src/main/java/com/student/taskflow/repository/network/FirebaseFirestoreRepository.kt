@@ -1,8 +1,8 @@
 package com.student.taskflow.repository.network
 
-import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.Query
 import com.student.taskflow.model.Group
 import com.student.taskflow.model.Task
 import com.student.taskflow.model.User
@@ -98,13 +98,11 @@ class FirebaseFirestoreRepository {
 
     suspend fun updateTask(task: Task): Result<Unit> {
         return try {
-            Log.d("LOGD1", "UPDATE: ${task}")
             getCollection(collectionTasks).document(task.id).set(task).await()
             Result.success(Unit)
         } catch (e: FirebaseFirestoreException) {
             Result.failure(Exception("Failed to update task in Firestore: ${e.message}"))
         } catch (e: Exception) {
-            Log.d("LOGD1", "ERROR: ${e.message}")
             Result.failure(e)
         }
     }
@@ -123,7 +121,9 @@ class FirebaseFirestoreRepository {
     suspend fun getListOfTasks(groupId: String): Result<List<Task>> {
         return try {
             val document =
-                getCollection(collectionTasks).whereEqualTo("groupId", groupId).get().await()
+                getCollection(collectionTasks)
+                    .orderBy("verified", Query.Direction.ASCENDING)
+                    .whereEqualTo("groupId", groupId).get().await()
             val tasks = document.documents.mapNotNull { it.toObject(Task::class.java) }
             Result.success(tasks)
         } catch (e: FirebaseFirestoreException) {
@@ -136,7 +136,9 @@ class FirebaseFirestoreRepository {
     suspend fun getListOfTasksCurrentUser(userId: String): Result<List<Task>> {
         return try {
             val document =
-                getCollection(collectionTasks).whereEqualTo("userId", userId).get().await()
+                getCollection(collectionTasks)
+                    .orderBy("verified", Query.Direction.ASCENDING)
+                    .whereEqualTo("assignedToEmployeeId", userId).get().await()
             val tasks = document.documents.mapNotNull { it.toObject(Task::class.java) }
             Result.success(tasks)
         } catch (e: FirebaseFirestoreException) {

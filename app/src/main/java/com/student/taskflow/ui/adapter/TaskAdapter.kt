@@ -1,5 +1,6 @@
 package com.student.taskflow.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import com.student.taskflow.model.enums.Priority
 import com.student.taskflow.model.enums.Status
 
 class TaskAdapter(
-    private val tasks: List<Task>,
+    private var tasks: List<Task>,
     private val isAdmin: Boolean,
     private val onCheckBoxClick: (Task) -> Unit,
     private val onBtnMoreClick: (View, Task) -> Unit,
@@ -29,8 +30,16 @@ class TaskAdapter(
         val binding = holder.binding
         val task = tasks[position]
 
+        binding.cbTitle.setOnCheckedChangeListener(null)
         binding.cbTitle.isChecked = task.isVerified
         binding.cbTitle.text = task.title
+        binding.cbTitle.setOnCheckedChangeListener { _, isChecked ->
+            if (task.isVerified != isChecked) {
+                task.isVerified = isChecked
+                onCheckBoxClick(task)
+            }
+        }
+
         binding.txDescription.text = task.description
         binding.txDateline.text = binding.root.context.getString(R.string.due_date, task.deadline)
 
@@ -75,24 +84,21 @@ class TaskAdapter(
             }
         }
 
-        binding.cbTitle.setOnCheckedChangeListener { _, isChecked ->
-            task.isVerified = isChecked
-            onCheckBoxClick(task)
-        }
-
         binding.btnMore.visibility = if (isAdmin) View.VISIBLE else View.INVISIBLE
-        binding.btnMore.setOnClickListener {
-            onBtnMoreClick(binding.btnMore, task)
-        }
+        binding.btnMore.setOnClickListener { onBtnMoreClick(binding.btnMore, task) }
 
         binding.btnInfo.visibility = if (!isAdmin) View.VISIBLE else View.INVISIBLE
-        binding.btnInfo.setOnClickListener {
-            onBtnInfoClick(task)
-        }
+        binding.btnInfo.setOnClickListener { onBtnInfoClick(task) }
     }
 
     override fun getItemCount(): Int = tasks.size
 
     inner class TaskViewHolder(val binding: ItemTaskBinding) :
         RecyclerView.ViewHolder(binding.root) {}
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateTasks(newTaskList: List<Task>) {
+        tasks = newTaskList
+        notifyDataSetChanged()
+    }
 }

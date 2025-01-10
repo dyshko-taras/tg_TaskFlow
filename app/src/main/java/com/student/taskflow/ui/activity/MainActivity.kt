@@ -3,6 +3,8 @@ package com.student.taskflow.ui.activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +13,24 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
+import com.skydoves.powerspinner.IconSpinnerAdapter
+import com.skydoves.powerspinner.IconSpinnerItem
+import com.skydoves.powerspinner.PowerSpinnerView
 import com.student.taskflow.R
 import com.student.taskflow.databinding.ActivityMainBinding
 import com.student.taskflow.model.Task
 import com.student.taskflow.model.enums.Role
+import com.student.taskflow.model.enums.Status
 import com.student.taskflow.repository.local.SharedPreferencesRepository
 import com.student.taskflow.repository.network.FirebaseAuthRepository
 import com.student.taskflow.repository.network.FirebaseFirestoreRepository
@@ -30,6 +40,8 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var taskAdapter: TaskAdapter
+    private var isFirstGetTasks = true
     private val firestoreRepository = FirebaseFirestoreRepository()
     private val user = SharedPreferencesRepository.getUser()!!
 
@@ -75,12 +87,17 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val result =
                 if (user.role == Role.ADMIN) {
-                    firestoreRepository.getListOfTasks(user.id)
+                    firestoreRepository.getListOfTasks(user.groupId)
                 } else {
-                    firestoreRepository.getListOfTasksCurrentUser(user.groupId)
+                    firestoreRepository.getListOfTasksCurrentUser(user.id)
                 }
             result.onSuccess { tasks ->
-                initRecyclerViewTasks(tasks)
+                if (isFirstGetTasks) {
+                    initRecyclerViewTasks(tasks)
+                    isFirstGetTasks = false
+                } else {
+                    taskAdapter.updateTasks(tasks)
+                }
             }.onFailure { error ->
                 showToast(error.message.toString())
             }
@@ -90,18 +107,12 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerViewTasks(tasks: List<Task>) {
         var isAdmin = user.role == Role.ADMIN
 
-        var onCheckBoxClick: ((Task) -> Unit) = { task ->
-            showToast("1: ${task.title}")
-        }
-        var onBtnMoreClick: ((anchor: View, Task) -> Unit) = { anchor, task ->
-            showTaskPopupMenu(anchor, task)
-            showToast("click more")
-        }
-        var onBtnInfoClick: ((Task) -> Unit) = { task ->
-            showToast("3: ${task.title}")
-        }
+        var onCheckBoxClick: ((Task) -> Unit) = { task -> updateTask(task, null) }
+        var onBtnMoreClick: ((anchor: View, Task) -> Unit) =
+            { anchor, task -> showTaskPopupMenu(anchor, task) }
+        var onBtnInfoClick: ((Task) -> Unit) = { task -> showAlertDialogTask(task) }
 
-        val taskAdapter =
+        taskAdapter =
             TaskAdapter(
                 tasks,
                 isAdmin,
@@ -189,6 +200,88 @@ class MainActivity : AppCompatActivity() {
         }
 
         popupWindow.showAsDropDown(anchor)
+    }
+
+    private fun showAlertDialogTask(selectedTask: Task) {
+        val builder = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.dialog_task_info, null)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        var tvTitle = view.findViewById<AppCompatTextView>(R.id.tvTitle)
+        var btnClose = view.findViewById<AppCompatImageView>(R.id.btnClose)
+        var spinnerStatus = view.findViewById<PowerSpinnerView>(R.id.spinnerStatus)
+        var tvDescription = view.findViewById<AppCompatTextView>(R.id.tvDescription)
+        var txDateline = view.findViewById<AppCompatTextView>(R.id.txDateline)
+        var btnCancel = view.findViewById<AppCompatButton>(R.id.btnCancel)
+        var btnSave = view.findViewById<AppCompatButton>(R.id.btnSave)
+
+        tvTitle.text = selectedTask.title
+        tvDescription.text = selectedTask.description
+        txDateline.text = binding.root.context.getString(R.string.due_date, selectedTask.deadline)
+
+        var itemsStatus = arrayListOf(
+            IconSpinnerItem(
+                iconRes = R.drawable.shape_1,
+                text = ContextCompat.getString(this, R.string.not_started)
+            ),
+            IconSpinnerItem(
+                iconRes = R.drawable.shape_2,
+                text = ContextCompat.getString(this, R.string.in_progress)
+            ),
+            IconSpinnerItem(
+                iconRes = R.drawable.shape_3,
+                text = ContextCompat.getString(this, R.string.completed)
+            ),
+            IconSpinnerItem(
+                iconRes = R.drawable.shape_4,
+                text = ContextCompat.getString(this, R.string.under_review)
+            )
+        )
+        spinnerStatus.setSpinnerAdapter(IconSpinnerAdapter(spinnerStatus))
+        spinnerStatus.setItems(itemsStatus)
+
+        var selectIndexStatus = when (selectedTask.status) {
+            Status.NOT_STARTED -> 0
+            Status.IN_PROGRESS -> 1
+            Status.COMPLETED -> 2
+            Status.UNDER_REVIEW -> 3
+        }
+        spinnerStatus.selectItemByIndex(selectIndexStatus)
+
+        var selectedStatus = itemsStatus[selectIndexStatus].text.toString()
+        spinnerStatus.setOnSpinnerItemSelectedListener<IconSpinnerItem> { oldIndex, oldItem, newIndex, newItem ->
+            selectedStatus = newItem.text.toString()
+        }
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnSave.setOnClickListener {
+            selectedTask.status = Status.fromString(this, selectedStatus)
+            updateTask(selectedTask, dialog)
+        }
+
+        dialog.show()
+    }
+
+    private fun updateTask(task: Task, dialog: AlertDialog?) {
+        lifecycleScope.launch {
+            var result = firestoreRepository.updateTask(task)
+            result.onSuccess { message ->
+                showToast(R.string.task_updated_successfully)
+                getTasks()
+                dialog?.dismiss()
+            }.onFailure { error ->
+                showToast(error.message.toString())
+            }
+        }
     }
 
     private fun navigateToAddTask() {

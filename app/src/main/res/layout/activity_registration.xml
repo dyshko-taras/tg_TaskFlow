@@ -15,7 +15,12 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@drawable/custom_scrollbar_thumb"
+            android:scrollbarTrackVertical="@drawable/custom_scrollbar_track"
+            android:scrollbars="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
