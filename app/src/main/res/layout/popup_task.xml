@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_popup"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/menu_item_edit"
+        style="@style/f12RegularBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_edit"
+        android:drawablePadding="10dp"
+        android:padding="8dp"
+        android:text="@string/edit" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/menu_item_delete"
+        style="@style/f12RegularBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_delete"
+        android:drawablePadding="10dp"
+        android:padding="8dp"
+        android:text="@string/delete"
+        android:textColor="@color/red" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

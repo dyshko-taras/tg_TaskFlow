@@ -23,7 +23,7 @@
     <string name="password_minimum_length">Не менше 6 символів</string>
     <string name="password_numbers">Цифри</string>
     <string name="save">Зберегти</string>
-    <string name="hello">"Привіт, "</string>
+    <string name="hello">"Привіт, %s"</string>
     <string name="create_new_task">Створити нове завдання</string>
     <string name="status">Статус</string>
     <string name="not_started">Не розпочато</string>
@@ -60,4 +60,11 @@
     <string name="password_reset_email_sent">Лист для скидання паролю успішно надіслано</string>
     <string name="position">Посада</string>
     <string name="mobile_number">Мобільний номер</string>
+    <string name="edit">Редагувати</string>
+    <string name="delete">Видалити</string>
+    <string name="task_deleted_successfully">Завдання успішно видалено</string>
+    <string name="edit_task">Редагувати завдання</string>
+    <string name="task_updated_successfully">Завдання успішно оновлено</string>
+
+
 </resources>

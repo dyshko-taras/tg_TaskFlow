@@ -4,18 +4,23 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.PopupMenu
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.gson.Gson
 import com.student.taskflow.R
 import com.student.taskflow.databinding.ActivityMainBinding
 import com.student.taskflow.model.Task
+import com.student.taskflow.model.enums.Role
 import com.student.taskflow.repository.local.SharedPreferencesRepository
 import com.student.taskflow.repository.network.FirebaseAuthRepository
 import com.student.taskflow.repository.network.FirebaseFirestoreRepository
@@ -46,8 +51,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        var hello = getString(R.string.hello)
-        binding.appBar.title = "$hello ${SharedPreferencesRepository.getUser()?.name}"
+        binding.txUserName.text = user.name.first().toString()
+
+        var name = SharedPreferencesRepository.getUser()?.name
+        binding.txTitle.text = getString(R.string.hello, name)
+
+        binding.btnAddTask.visibility =
+            if (user.role == Role.ADMIN) View.VISIBLE else View.INVISIBLE
     }
 
 
@@ -56,14 +66,19 @@ class MainActivity : AppCompatActivity() {
             navigateToAddTask()
         }
 
-        binding.btnMore.setOnClickListener {
-            showPopupMenu(binding.btnMore)
+        binding.btnSettings.setOnClickListener {
+            showSettingsPopupMenu(binding.btnSettings)
         }
     }
 
     private fun getTasks() {
         lifecycleScope.launch {
-            val result = firestoreRepository.getListOfTasks(user.groupId)
+            val result =
+                if (user.role == Role.ADMIN) {
+                    firestoreRepository.getListOfTasks(user.id)
+                } else {
+                    firestoreRepository.getListOfTasksCurrentUser(user.groupId)
+                }
             result.onSuccess { tasks ->
                 initRecyclerViewTasks(tasks)
             }.onFailure { error ->
@@ -73,44 +88,107 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerViewTasks(tasks: List<Task>) {
-        val taskAdapter = TaskAdapter(tasks) { task ->
-            println("Clicked on task: ${task.title}")
+        var isAdmin = user.role == Role.ADMIN
+
+        var onCheckBoxClick: ((Task) -> Unit) = { task ->
+            showToast("1: ${task.title}")
         }
+        var onBtnMoreClick: ((anchor: View, Task) -> Unit) = { anchor, task ->
+            showTaskPopupMenu(anchor, task)
+            showToast("click more")
+        }
+        var onBtnInfoClick: ((Task) -> Unit) = { task ->
+            showToast("3: ${task.title}")
+        }
+
+        val taskAdapter =
+            TaskAdapter(
+                tasks,
+                isAdmin,
+                onCheckBoxClick,
+                onBtnMoreClick,
+                onBtnInfoClick
+            )
         binding.rvTasks.adapter = taskAdapter
     }
 
-    fun showPopupMenu(view: View) {
-        var popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.popupmenu_admin, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.menu_copy_id -> {
-                    val groupId = SharedPreferencesRepository.getUser()?.groupId
+    fun showSettingsPopupMenu(anchor: View) {
+        val inflater = LayoutInflater.from(anchor.context)
+        val popupView = inflater.inflate(R.layout.popup_settings, null)
 
-                    val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                    val clip = ClipData.newPlainText("text", groupId)
-                    clipboard.setPrimaryClip(clip)
+        val popupWindow = PopupWindow(
+            popupView,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
 
-                    showToast(R.string.id_copied)
-                    true
-                }
+        val copyItem = popupView.findViewById<AppCompatTextView>(R.id.menu_item_copy)
+        val signOutItem = popupView.findViewById<AppCompatTextView>(R.id.menu_item_sign_out)
 
-                R.id.menu_sign_out -> {
-                    var result = FirebaseAuthRepository.signOut()
-                    result.onSuccess {
-                        SharedPreferencesRepository.clearUser()
-                        navigateToAuthorization()
-                        showToast(R.string.log_out_successful)
-                    }.onFailure {
-                        showToast(it.message.toString())
-                    }
-                    true
-                }
+        copyItem.setOnClickListener {
+            val groupId = SharedPreferencesRepository.getUser()?.groupId
 
-                else -> false
-            }
+            val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("text", groupId)
+            clipboard.setPrimaryClip(clip)
+
+            showToast(R.string.id_copied)
+            popupWindow.dismiss()
         }
-        popupMenu.show()
+
+        signOutItem.setOnClickListener {
+            var result = FirebaseAuthRepository.signOut()
+            result.onSuccess {
+                SharedPreferencesRepository.clearUser()
+                navigateToAuthorization()
+                showToast(R.string.log_out_successful)
+            }.onFailure {
+                showToast(it.message.toString())
+            }
+            popupWindow.dismiss()
+        }
+
+        popupWindow.showAsDropDown(anchor)
+    }
+
+    fun showTaskPopupMenu(anchor: View, task: Task) {
+        val inflater = LayoutInflater.from(anchor.context)
+        val popupView = inflater.inflate(R.layout.popup_task, null)
+
+        val popupWindow = PopupWindow(
+            popupView,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        val editItem = popupView.findViewById<AppCompatTextView>(R.id.menu_item_edit)
+        val deleteItem = popupView.findViewById<AppCompatTextView>(R.id.menu_item_delete)
+
+        editItem.setOnClickListener {
+            var gson = Gson()
+            var json = gson.toJson(task)
+            val intent = Intent(this@MainActivity, AddTaskActivity::class.java)
+            intent.putExtra("task", json)
+            startActivity(intent)
+            popupWindow.dismiss()
+        }
+
+        deleteItem.setOnClickListener {
+            lifecycleScope.launch {
+                var result = firestoreRepository.deleteTask(task)
+                result.onSuccess {
+                    showToast(R.string.task_deleted_successfully)
+                    getTasks()
+                }.onFailure {
+                    showToast(it.message.toString())
+                }
+            }
+            popupWindow.dismiss()
+        }
+
+        popupWindow.showAsDropDown(anchor)
     }
 
     private fun navigateToAddTask() {
@@ -123,16 +201,6 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-//
-//    private fun showLoading() {
-//        binding.dimBackground.visibility = View.VISIBLE
-//        binding.progressBar.visibility = View.VISIBLE
-//    }
-//
-//    private fun hideLoading() {
-//        binding.dimBackground.visibility = View.GONE
-//        binding.progressBar.visibility = View.GONE
-//    }
 
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this@MainActivity, message, duration).show()

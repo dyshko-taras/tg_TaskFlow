@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_popup"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/menu_item_copy"
+        style="@style/f18RegularBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/copy_group_id" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/menu_item_sign_out"
+        style="@style/f18RegularBlack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/sign_out" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

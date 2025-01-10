@@ -23,7 +23,7 @@
     <string name="password_minimum_length">At least 6 characters</string>
     <string name="password_numbers">Numbers</string>
     <string name="save">Save</string>
-    <string name="hello">Hello, </string>
+    <string name="hello">Hello, %s</string>
     <string name="create_new_task">Create a new task</string>
     <string name="status">Status</string>
     <string name="not_started">Not Started</string>
@@ -60,4 +60,10 @@
     <string name="password_reset_email_sent">Password reset email sent successfully</string>
     <string name="position">Position</string>
     <string name="mobile_number">Mobile Number</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="task_deleted_successfully">Task deleted successfully</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="task_updated_successfully">Task updated successfully</string>
+
 </resources>

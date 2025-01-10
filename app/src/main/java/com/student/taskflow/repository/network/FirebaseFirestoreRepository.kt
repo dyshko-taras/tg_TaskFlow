@@ -1,5 +1,6 @@
 package com.student.taskflow.repository.network
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.student.taskflow.model.Group
@@ -90,6 +91,30 @@ class FirebaseFirestoreRepository {
             Result.success(Unit)
         } catch (e: FirebaseFirestoreException) {
             Result.failure(Exception("Failed to save task to Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateTask(task: Task): Result<Unit> {
+        return try {
+            Log.d("LOGD1", "UPDATE: ${task}")
+            getCollection(collectionTasks).document(task.id).set(task).await()
+            Result.success(Unit)
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to update task in Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Log.d("LOGD1", "ERROR: ${e.message}")
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deleteTask(task: Task): Result<Unit> {
+        return try {
+            getCollection(collectionTasks).document(task.id).delete().await()
+            Result.success(Unit)
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to delete task from Firestore: ${e.message}"))
         } catch (e: Exception) {
             Result.failure(e)
         }
