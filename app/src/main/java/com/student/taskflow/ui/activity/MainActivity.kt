@@ -85,6 +85,10 @@ class MainActivity : AppCompatActivity() {
         binding.btnMyGroup.setOnClickListener {
             navigateToMyGroup()
         }
+
+        binding.btnPolls.setOnClickListener {
+            navigateToPolls()
+        }
     }
 
     private fun getTasks() {
@@ -125,6 +129,8 @@ class MainActivity : AppCompatActivity() {
                 onBtnInfoClick
             )
         binding.rvTasks.adapter = taskAdapter
+
+        hideLoading()
     }
 
     fun showSettingsPopupMenu(anchor: View) {
@@ -259,13 +265,9 @@ class MainActivity : AppCompatActivity() {
             selectedStatus = newItem.text.toString()
         }
 
-        btnClose.setOnClickListener {
-            dialog.dismiss()
-        }
+        btnClose.setOnClickListener { dialog.dismiss() }
 
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
+        btnCancel.setOnClickListener { dialog.dismiss() }
 
         btnSave.setOnClickListener {
             selectedTask.status = Status.fromString(this, selectedStatus)
@@ -302,6 +304,17 @@ class MainActivity : AppCompatActivity() {
     private fun navigateToMyGroup() {
         val intent = Intent(this@MainActivity, MyGroupActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0)
+    }
+
+    private fun navigateToPolls() {
+        val intent = Intent(this@MainActivity, PollsActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
     }
 
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {

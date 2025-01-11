@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.activity.AddTaskActivity">
+    tools:context=".ui.activity.AddPollActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/appBar"
@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@string/create_new_task"
+            android:text="@string/create_new_poll"
             android:textAlignment="center"
             android:textAppearance="@style/f25BoldBlack"
             app:titleTextAppearance="@style/f25BoldBlack" />
@@ -52,119 +52,28 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp">
 
-            <CalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:dateTextAppearance="@style/f12RegularWhiteBlack123"
-                android:theme="@style/CalenderViewCustom"
-                android:weekDayTextAppearance="@style/f12RegularBlack" />
-
             <androidx.appcompat.widget.AppCompatTextView
                 style="@style/f12BoldBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/status" />
-
-            <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/spinnerStatus"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_spinner"
-                android:gravity="start|center_vertical"
-                android:hint="@string/select_status"
-                android:paddingHorizontal="10dp"
-                android:textAppearance="@style/f12RegularBlack"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey"
-                app:spinner_arrow_gravity="end"
-                app:spinner_arrow_padding="8dp"
-                app:spinner_arrow_tint="@color/grey"
-                app:spinner_item_height="46dp"
-                app:spinner_popup_animation="dropdown"
-                app:spinner_popup_background="@color/white"
-                app:spinner_popup_elevation="14dp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/f12BoldBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/priority" />
-
-            <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/spinnerPriority"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_spinner"
-                android:gravity="start|center_vertical"
-                android:hint="@string/select_priority"
-                android:paddingHorizontal="10dp"
-                android:textAppearance="@style/f12RegularBlack"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey"
-                app:spinner_arrow_gravity="end"
-                app:spinner_arrow_padding="8dp"
-                app:spinner_arrow_tint="@color/grey"
-                app:spinner_item_height="46dp"
-                app:spinner_popup_animation="dropdown"
-                app:spinner_popup_background="@color/white"
-                app:spinner_popup_elevation="14dp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/f12BoldBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/employee" />
-
-            <com.skydoves.powerspinner.PowerSpinnerView
-                android:id="@+id/spinnerEmployee"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/shape_spinner"
-                android:gravity="start|center_vertical"
-                android:hint="@string/select_employee"
-                android:paddingHorizontal="10dp"
-                android:textAppearance="@style/f12RegularBlack"
-                android:textColor="@color/black"
-                android:textColorHint="@color/grey"
-                app:spinner_arrow_gravity="end"
-                app:spinner_arrow_padding="8dp"
-                app:spinner_arrow_tint="@color/grey"
-                app:spinner_item_height="46dp"
-                app:spinner_popup_animation="dropdown"
-                app:spinner_popup_background="@color/white"
-                app:spinner_popup_elevation="14dp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/f12BoldBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/title" />
+                android:text="@string/poll_name" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutTitle"
+                android:id="@+id/textInputLayoutPollName"
                 style="@style/textInputLayoutSmallStyle"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:layout_marginTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputEditTextTitle"
+                    android:id="@+id/text_input_edit_text_title"
                     style="@style/textInputEditTextSmallStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="@string/enter_task_title"
+                    android:hint="@string/enter_poll_title"
                     android:inputType="textCapSentences"
                     android:maxLines="1"
                     android:padding="0dp" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -187,11 +96,86 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="start|top"
-                    android:hint="@string/enter_task_description"
+                    android:hint="@string/enter_poll_description"
                     android:inputType="textMultiLine"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="8dp" />
 
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/f12BoldBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/options1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutOption1"
+                style="@style/textInputLayoutSmallStyle"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditTextOption1"
+                    style="@style/textInputEditTextSmallStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/enter_answer_option"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:padding="0dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/f12BoldBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/options2" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutOption2"
+                style="@style/textInputLayoutSmallStyle"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditTextOption2"
+                    style="@style/textInputEditTextSmallStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/enter_answer_option"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:padding="0dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/f12BoldBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/options3" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutOption3"
+                style="@style/textInputLayoutSmallStyle"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputEditTextOption3"
+                    style="@style/textInputEditTextSmallStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/enter_answer_option"
+                    android:inputType="textCapSentences"
+                    android:maxLines="1"
+                    android:padding="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat

@@ -146,11 +146,11 @@
         android:background="#80000000"
         android:visibility="gone" />
 
-    <!-- ProgressBar -->
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
+        android:indeterminateTint="@color/white"
         android:visibility="gone" />
 </FrameLayout>

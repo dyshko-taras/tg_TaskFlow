@@ -84,6 +84,7 @@
                 android:paddingStart="10dp"
                 android:textAppearance="@style/f18BoldBlack"
                 android:textColor="@color/red"
+                tools:ignore="RtlSymmetry"
                 tools:text="@string/not_started" />
         </LinearLayout>
 

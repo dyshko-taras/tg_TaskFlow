@@ -69,5 +69,17 @@
     <string name="position_line">Position - %s</string>
     <string name="email_line">Email - %s</string>
     <string name="mobile_number_line">Mobile Number - %s</string>
-
+    <string name="polls">Polls</string>
+    <string name="create_new_poll">Create a new poll</string>
+    <string name="poll_name">Poll Name</string>
+    <string name="options1">Option 1</string>
+    <string name="options2">Option 2</string>
+    <string name="options3">Option 3</string>
+    <string name="enter_poll_title">Enter poll title</string>
+    <string name="enter_poll_description">Enter poll description</string>
+    <string name="enter_answer_option">Enter answer option</string>
+    <string name="poll_saved_successfully">Poll saved successfully</string>
+    <string name="vote">Vote</string>
+    <string name="select_option">Select an option</string>
+    <string name="poll_updated_successfully">Poll updated successfully</string>
 </resources>

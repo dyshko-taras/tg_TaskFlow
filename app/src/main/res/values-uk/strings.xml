@@ -69,4 +69,17 @@
     <string name="position_line">Посада - %s</string>
     <string name="email_line">Електронна пошта - %s</string>
     <string name="mobile_number_line">Мобільний номер - %s</string>
+    <string name="polls">Опитування</string>
+    <string name="create_new_poll">Створити нове опитування</string>
+    <string name="poll_name">Назва опитування</string>
+    <string name="options1">Варіант 1</string>
+    <string name="options2">Варіант 2</string>
+    <string name="options3">Варіант 3</string>
+    <string name="enter_poll_title">Введіть назву опитування</string>
+    <string name="enter_poll_description">Введіть опис опитування</string>
+    <string name="enter_answer_option">Введіть варіант відповіді</string>
+    <string name="poll_saved_successfully">Опитування успішно збережено</string>
+    <string name="vote">Проголосувати</string>
+    <string name="select_option">Виберіть варіант</string>
+    <string name="poll_updated_successfully">Опитування успішно оновлено</string>
 </resources>

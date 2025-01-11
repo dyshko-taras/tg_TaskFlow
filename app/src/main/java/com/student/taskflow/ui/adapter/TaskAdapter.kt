@@ -2,6 +2,7 @@ package com.student.taskflow.ui.adapter
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +34,24 @@ class TaskAdapter(
         binding.cbTitle.setOnCheckedChangeListener(null)
         binding.cbTitle.isChecked = task.isVerified
         binding.cbTitle.text = task.title
+        if (task.isVerified) {
+            binding.cbTitle.paintFlags =
+                binding.cbTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        } else {
+            binding.cbTitle.paintFlags =
+                binding.cbTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        }
         binding.cbTitle.setOnCheckedChangeListener { _, isChecked ->
             if (task.isVerified != isChecked) {
                 task.isVerified = isChecked
                 onCheckBoxClick(task)
+                if (isChecked) {
+                    binding.cbTitle.paintFlags =
+                        binding.cbTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                } else {
+                    binding.cbTitle.paintFlags =
+                        binding.cbTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                }
             }
         }
 
@@ -94,7 +109,7 @@ class TaskAdapter(
     override fun getItemCount(): Int = tasks.size
 
     inner class TaskViewHolder(val binding: ItemTaskBinding) :
-        RecyclerView.ViewHolder(binding.root) {}
+        RecyclerView.ViewHolder(binding.root)
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateTasks(newTaskList: List<Task>) {

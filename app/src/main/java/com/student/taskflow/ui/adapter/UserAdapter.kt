@@ -51,7 +51,7 @@ class UserAdapter(
     override fun getItemCount(): Int = users.size
 
     inner class UserViewHolder(val binding: ItemUserBinding) :
-        RecyclerView.ViewHolder(binding.root) {}
+        RecyclerView.ViewHolder(binding.root)
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateUsers(newUserList: List<User>) {

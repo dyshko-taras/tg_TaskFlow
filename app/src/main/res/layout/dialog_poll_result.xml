@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="27dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="30dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                style="@style/f18BoldBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="Title" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnClose"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="15dp"
+                app:srcCompat="@drawable/ic_close" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="15dp"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarThumbVertical="@drawable/custom_scrollbar_thumb"
+            android:scrollbarTrackVertical="@drawable/custom_scrollbar_track"
+            android:scrollbars="vertical">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDescription"
+                    style="@style/f12RegularBlack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Description" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </ScrollView>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOption1"
+                style="@style/f12RegularBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="Option 1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOptionPercentage1"
+                style="@style/f12RegularBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="10%" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/lpiOption1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            android:max="100"
+            app:indicatorColor="@color/blue"
+            app:indicatorSize="6dp"
+            app:trackColor="@color/grey"
+            app:trackCornerRadius="3dp"
+            app:trackThickness="5dp"
+            tools:progress="10" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOption2"
+                style="@style/f12RegularBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="Option 2" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOptionPercentage2"
+                style="@style/f12RegularBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="20%" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/lpiOption2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            android:max="100"
+            app:indicatorColor="@color/blue"
+            app:indicatorSize="6dp"
+            app:trackColor="@color/grey"
+            app:trackCornerRadius="3dp"
+            app:trackThickness="5dp"
+            tools:progress="20" />
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOption3"
+                style="@style/f12RegularBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                tools:text="Option 3" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOptionPercentage3"
+                style="@style/f12RegularBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="30%" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/lpiOption3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            android:max="100"
+            app:indicatorColor="@color/blue"
+            app:indicatorSize="6dp"
+            app:trackColor="@color/grey"
+            app:trackCornerRadius="3dp"
+            app:trackThickness="5dp"
+            tools:progress="30" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

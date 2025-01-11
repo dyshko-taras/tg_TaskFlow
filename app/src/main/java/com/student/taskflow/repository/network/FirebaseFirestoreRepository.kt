@@ -4,6 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.Query
 import com.student.taskflow.model.Group
+import com.student.taskflow.model.Poll
 import com.student.taskflow.model.Task
 import com.student.taskflow.model.User
 import com.student.taskflow.model.enums.Role
@@ -17,6 +18,7 @@ class FirebaseFirestoreRepository {
     private val collectionUsers = "users"
     private val collectionGroups = "groups"
     private val collectionTasks = "tasks"
+    private val collectionPolls = "polls"
 
 
     suspend fun addUser(user: User): Result<Unit> {
@@ -178,4 +180,51 @@ class FirebaseFirestoreRepository {
             Result.failure(e)
         }
     }
+
+    suspend fun addPoll(poll: Poll): Result<Unit> {
+        return try {
+            getCollection(collectionPolls).add(poll).await()
+            Result.success(Unit)
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to save poll to Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getListOfPolls(groupId: String): Result<List<Poll>> {
+        return try {
+            val document = getCollection(collectionPolls)
+                .whereEqualTo("groupId", groupId).get().await()
+            val polls = document.documents.mapNotNull { it.toObject(Poll::class.java) }
+            Result.success(polls)
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to get poll from Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updatePoll(poll: Poll): Result<Unit> {
+        return try {
+            getCollection(collectionPolls).document(poll.id).set(poll).await()
+            Result.success(Unit)
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to update poll in Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deletePoll(poll: Poll): Result<Unit> {
+        return try {
+            getCollection(collectionPolls).document(poll.id).delete().await()
+            Result.success(Unit)
+        } catch (e: FirebaseFirestoreException) {
+            Result.failure(Exception("Failed to delete poll from Firestore: ${e.message}"))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.student.taskflow.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
@@ -48,6 +49,9 @@ class MyGroupActivity : AppCompatActivity() {
             navigateToMain()
         }
 
+        binding.btnPolls.setOnClickListener {
+            navigateToPolls()
+        }
     }
 
     private fun getUsers() {
@@ -93,12 +97,26 @@ class MyGroupActivity : AppCompatActivity() {
             onBtnDelete
         )
         binding.rvUsers.adapter = userAdapter
+
+        hideLoading()
     }
 
     private fun navigateToMain() {
         val intent = Intent(this@MyGroupActivity, MainActivity::class.java)
         startActivity(intent)
+        overridePendingTransition(0, 0)
     }
+
+    private fun navigateToPolls() {
+        val intent = Intent(this@MyGroupActivity, PollsActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(0, 0)
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+    }
+
 
     fun showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this@MyGroupActivity, message, duration).show()
