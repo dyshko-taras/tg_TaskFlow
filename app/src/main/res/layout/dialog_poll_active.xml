@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="40dp"
         android:paddingVertical="30dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -22,10 +22,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvTitle"
-                style="@style/f18BoldBlack"
+                style="@style/f30BoldWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/black"
                 tools:text="Title" />
 
             <androidx.appcompat.widget.AppCompatImageView

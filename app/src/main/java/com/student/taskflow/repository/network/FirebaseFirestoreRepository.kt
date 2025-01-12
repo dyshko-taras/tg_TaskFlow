@@ -226,5 +226,4 @@ class FirebaseFirestoreRepository {
             Result.failure(e)
         }
     }
-
 }

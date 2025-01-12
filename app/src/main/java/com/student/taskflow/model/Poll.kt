@@ -10,6 +10,3 @@ data class Poll(
     val options: List<OptionsItem> = emptyList(),
     var votedUsers: MutableList<String> = mutableListOf()
 )
-
-
-
